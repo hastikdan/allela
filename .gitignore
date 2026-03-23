@@ -1,0 +1,11 @@
+# Backend
+allela_backend/.env
+allela_backend/__pycache__/
+allela_backend/*.pyc
+allela_backend/.pytest_cache/
+
+# Frontend
+allela_frontend/.env.local
+allela_frontend/node_modules/
+allela_frontend/.next/
+allela_frontend/out/

@@ -1,0 +1,256 @@
+{
+  "monogenic": [
+    {
+      "rsid": "rs429358",
+      "gene": "APOE",
+      "condition": "Alzheimer's Disease",
+      "condition_key": "alzheimers",
+      "risk_allele": "C",
+      "ref_allele": "T",
+      "effect": "APOE ε4 allele — significantly increases lifetime risk of late-onset Alzheimer's",
+      "source": "ClinVar / multiple GWAS",
+      "note": "Combine with rs7412 to determine full APOE genotype"
+    },
+    {
+      "rsid": "rs7412",
+      "gene": "APOE",
+      "condition": "Alzheimer's Disease",
+      "condition_key": "alzheimers",
+      "risk_allele": "T",
+      "ref_allele": "C",
+      "effect": "APOE ε2 allele — protective against Alzheimer's",
+      "source": "ClinVar",
+      "note": "Must combine with rs429358 for APOE ε2/ε3/ε4 classification"
+    },
+    {
+      "rsid": "rs6025",
+      "gene": "F5",
+      "condition": "Venous Thromboembolism",
+      "condition_key": "vte",
+      "risk_allele": "T",
+      "ref_allele": "C",
+      "effect": "Factor V Leiden — 5-7x increased risk of blood clots (DVT/PE)",
+      "source": "ClinVar Pathogenic",
+      "population_frequency": 0.02
+    },
+    {
+      "rsid": "rs1799963",
+      "gene": "F2",
+      "condition": "Venous Thromboembolism",
+      "condition_key": "vte",
+      "risk_allele": "A",
+      "ref_allele": "G",
+      "effect": "Prothrombin G20210A mutation — 3x increased risk of blood clots",
+      "source": "ClinVar Pathogenic",
+      "population_frequency": 0.02
+    },
+    {
+      "rsid": "rs1800562",
+      "gene": "HFE",
+      "condition": "Hereditary Hemochromatosis",
+      "condition_key": "hemochromatosis",
+      "risk_allele": "A",
+      "ref_allele": "G",
+      "effect": "HFE C282Y — primary mutation for hereditary hemochromatosis (iron overload)",
+      "source": "ClinVar Pathogenic",
+      "population_frequency": 0.06
+    },
+    {
+      "rsid": "rs1799945",
+      "gene": "HFE",
+      "condition": "Hereditary Hemochromatosis",
+      "condition_key": "hemochromatosis",
+      "risk_allele": "G",
+      "ref_allele": "C",
+      "effect": "HFE H63D — modifier mutation; compound heterozygotes (C282Y + H63D) have elevated risk",
+      "source": "ClinVar",
+      "population_frequency": 0.14
+    },
+    {
+      "rsid": "rs34637584",
+      "gene": "LRRK2",
+      "condition": "Parkinson's Disease",
+      "condition_key": "parkinsons",
+      "risk_allele": "A",
+      "ref_allele": "G",
+      "effect": "LRRK2 G2019S — most common known genetic cause of Parkinson's",
+      "source": "ClinVar Pathogenic",
+      "population_frequency": 0.001
+    },
+    {
+      "rsid": "rs76763715",
+      "gene": "GBA",
+      "condition": "Parkinson's Disease",
+      "condition_key": "parkinsons",
+      "risk_allele": "A",
+      "ref_allele": "G",
+      "effect": "GBA N370S — 5x increased risk of Parkinson's; also associated with Gaucher disease",
+      "source": "ClinVar",
+      "population_frequency": 0.01
+    },
+    {
+      "rsid": "rs2187668",
+      "gene": "HLA-DQA1",
+      "condition": "Celiac Disease",
+      "condition_key": "celiac",
+      "risk_allele": "C",
+      "ref_allele": "T",
+      "effect": "HLA-DQ2.5 proxy — present in ~90% of celiac patients; necessary but not sufficient",
+      "source": "Multiple GWAS",
+      "population_frequency": 0.26
+    },
+    {
+      "rsid": "rs7454108",
+      "gene": "HLA-DQB1",
+      "condition": "Celiac Disease",
+      "condition_key": "celiac",
+      "risk_allele": "T",
+      "ref_allele": "C",
+      "effect": "HLA-DQ8 proxy — second major celiac risk HLA haplotype",
+      "source": "Multiple GWAS",
+      "population_frequency": 0.12
+    }
+  ],
+  "prs": {
+    "type2_diabetes": {
+      "condition": "Type 2 Diabetes",
+      "condition_key": "type2_diabetes",
+      "population_lifetime_risk": 0.11,
+      "variants": [
+        {"rsid": "rs7903146", "gene": "TCF7L2", "risk_allele": "T", "weight": 0.314},
+        {"rsid": "rs5219",    "gene": "KCNJ11", "risk_allele": "T", "weight": 0.140},
+        {"rsid": "rs1801282", "gene": "PPARG",  "risk_allele": "G", "weight": 0.223},
+        {"rsid": "rs13266634","gene": "SLC30A8","risk_allele": "C", "weight": 0.113},
+        {"rsid": "rs7754840", "gene": "CDKAL1", "risk_allele": "C", "weight": 0.113},
+        {"rsid": "rs4402960", "gene": "IGF2BP2","risk_allele": "T", "weight": 0.131},
+        {"rsid": "rs10946398","gene": "CDKAL1", "risk_allele": "C", "weight": 0.113},
+        {"rsid": "rs1111875", "gene": "HHEX",   "risk_allele": "C", "weight": 0.127},
+        {"rsid": "rs4607103", "gene": "ADAMTS9","risk_allele": "C", "weight": 0.093},
+        {"rsid": "rs757210",  "gene": "HNF1B",  "risk_allele": "T", "weight": 0.098}
+      ],
+      "population_mean_score": 0.0,
+      "population_std": 1.0
+    },
+    "coronary_artery_disease": {
+      "condition": "Coronary Artery Disease",
+      "condition_key": "coronary_artery_disease",
+      "population_lifetime_risk": 0.10,
+      "variants": [
+        {"rsid": "rs1333049", "gene": "9p21.3", "risk_allele": "C", "weight": 0.253},
+        {"rsid": "rs10455872","gene": "LPA",    "risk_allele": "G", "weight": 0.531},
+        {"rsid": "rs2681472", "gene": "SH2B3",  "risk_allele": "C", "weight": 0.131},
+        {"rsid": "rs9818870", "gene": "MRAS",   "risk_allele": "T", "weight": 0.162},
+        {"rsid": "rs2259816", "gene": "HNF1A",  "risk_allele": "A", "weight": 0.131},
+        {"rsid": "rs4977574", "gene": "CDKN2B-AS1","risk_allele": "G", "weight": 0.227},
+        {"rsid": "rs1746048", "gene": "10q11",  "risk_allele": "C", "weight": 0.146},
+        {"rsid": "rs12526453","gene": "PHACTR1","risk_allele": "C", "weight": 0.163}
+      ],
+      "population_mean_score": 0.0,
+      "population_std": 1.0
+    },
+    "atrial_fibrillation": {
+      "condition": "Atrial Fibrillation",
+      "condition_key": "atrial_fibrillation",
+      "population_lifetime_risk": 0.25,
+      "variants": [
+        {"rsid": "rs2200733", "gene": "PITX2",  "risk_allele": "T", "weight": 0.398},
+        {"rsid": "rs10033464","gene": "PITX2",  "risk_allele": "T", "weight": 0.243},
+        {"rsid": "rs7193343", "gene": "ZFHX3",  "risk_allele": "C", "weight": 0.215},
+        {"rsid": "rs6817105", "gene": "CAND2",  "risk_allele": "C", "weight": 0.162},
+        {"rsid": "rs3807989", "gene": "CAV1",   "risk_allele": "A", "weight": 0.139}
+      ],
+      "population_mean_score": 0.0,
+      "population_std": 1.0
+    },
+    "breast_cancer": {
+      "condition": "Breast Cancer",
+      "condition_key": "breast_cancer",
+      "population_lifetime_risk": 0.125,
+      "note": "Female-applicable. Risk estimates are for female carriers.",
+      "variants": [
+        {"rsid": "rs3803662", "gene": "TOX3",   "risk_allele": "T", "weight": 0.182},
+        {"rsid": "rs13281615","gene": "8q24",   "risk_allele": "A", "weight": 0.113},
+        {"rsid": "rs3817198", "gene": "LSP1",   "risk_allele": "C", "weight": 0.104},
+        {"rsid": "rs889312",  "gene": "MAP3K1", "risk_allele": "C", "weight": 0.113},
+        {"rsid": "rs2981582", "gene": "FGFR2",  "risk_allele": "T", "weight": 0.227},
+        {"rsid": "rs4973768", "gene": "SLC4A7", "risk_allele": "T", "weight": 0.104},
+        {"rsid": "rs10941679","gene": "5p12",   "risk_allele": "G", "weight": 0.139}
+      ],
+      "population_mean_score": 0.0,
+      "population_std": 1.0
+    },
+    "prostate_cancer": {
+      "condition": "Prostate Cancer",
+      "condition_key": "prostate_cancer",
+      "population_lifetime_risk": 0.13,
+      "note": "Male-applicable.",
+      "variants": [
+        {"rsid": "rs10993994","gene": "MSMB",   "risk_allele": "T", "weight": 0.262},
+        {"rsid": "rs4430796", "gene": "HNF1B",  "risk_allele": "G", "weight": 0.182},
+        {"rsid": "rs16901979","gene": "8q24",   "risk_allele": "A", "weight": 0.398},
+        {"rsid": "rs6983267", "gene": "8q24",   "risk_allele": "G", "weight": 0.226},
+        {"rsid": "rs1447295", "gene": "8q24",   "risk_allele": "A", "weight": 0.295},
+        {"rsid": "rs7579918", "gene": "2p15",   "risk_allele": "G", "weight": 0.139}
+      ],
+      "population_mean_score": 0.0,
+      "population_std": 1.0
+    }
+  },
+  "pharmacogenomics": [
+    {
+      "rsid": "rs4244285",
+      "gene": "CYP2C19",
+      "star_allele": "*2",
+      "risk_allele": "A",
+      "ref_allele": "G",
+      "effect": "Poor metabolizer allele — reduced metabolism of clopidogrel, SSRIs (escitalopram, citalopram), PPIs",
+      "drug_classes": ["Antiplatelet (clopidogrel)", "SSRIs", "Proton pump inhibitors"],
+      "clinical_guidance": "Clopidogrel may be less effective; consider alternative antiplatelet therapy. SSRI dosing may need adjustment.",
+      "source": "CPIC"
+    },
+    {
+      "rsid": "rs12248560",
+      "gene": "CYP2C19",
+      "star_allele": "*17",
+      "risk_allele": "T",
+      "ref_allele": "C",
+      "effect": "Ultra-rapid metabolizer allele — faster metabolism of CYP2C19 substrates",
+      "drug_classes": ["SSRIs", "Proton pump inhibitors", "Clopidogrel"],
+      "clinical_guidance": "Standard SSRI doses may have reduced effect; PPIs may be less effective at standard doses.",
+      "source": "CPIC"
+    },
+    {
+      "rsid": "rs3892097",
+      "gene": "CYP2D6",
+      "star_allele": "*4",
+      "risk_allele": "A",
+      "ref_allele": "G",
+      "effect": "Poor metabolizer allele (most common CYP2D6 LOF) — affects TCAs, codeine, tamoxifen, beta-blockers",
+      "drug_classes": ["Tricyclic antidepressants", "Codeine/tramadol", "Tamoxifen", "Beta-blockers"],
+      "clinical_guidance": "Codeine may be ineffective (no conversion to morphine); TCA dosing may need reduction.",
+      "source": "CPIC"
+    },
+    {
+      "rsid": "rs4149056",
+      "gene": "SLCO1B1",
+      "star_allele": "*5",
+      "risk_allele": "C",
+      "ref_allele": "T",
+      "effect": "Reduced statin transport into liver — elevated statin blood levels, increased myopathy risk",
+      "drug_classes": ["Statins (simvastatin, atorvastatin)"],
+      "clinical_guidance": "High-dose simvastatin should be avoided; consider rosuvastatin or pravastatin with lower myopathy risk.",
+      "source": "CPIC"
+    },
+    {
+      "rsid": "rs9923231",
+      "gene": "VKORC1",
+      "star_allele": null,
+      "risk_allele": "A",
+      "ref_allele": "G",
+      "effect": "Warfarin sensitivity — requires lower warfarin doses to achieve therapeutic INR",
+      "drug_classes": ["Warfarin (anticoagulant)"],
+      "clinical_guidance": "Standard warfarin doses may cause over-anticoagulation and bleeding risk. Dose reduction typically required.",
+      "source": "CPIC"
+    }
+  ]
+}
