@@ -14,7 +14,8 @@ from dotenv import load_dotenv
 from supabase import create_client, Client
 
 from parser import parse_dna_file
-from risk_engine import score_all
+from risk_engine import score_all, get_all_rsids
+from enrichment import enrich_variants_async
 
 load_dotenv()
 
@@ -70,9 +71,17 @@ async def analyze(file: UploadFile = File(...), email: Optional[str] = None):
     finally:
         del content  # explicit discard
 
+    # Live enrichment — fire all 4 public APIs for variants found in user's file
+    all_db_rsids = get_all_rsids()
+    rsids_to_enrich = [rsid for rsid in all_db_rsids if rsid in snps]
+    try:
+        enrichment = await enrich_variants_async(rsids_to_enrich)
+    except Exception:
+        enrichment = {}  # enrichment is best-effort; scoring continues regardless
+
     # Score
     try:
-        scores = score_all(snps)
+        scores = score_all(snps, enrichment=enrichment)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Scoring error: {str(e)}")
     finally:
