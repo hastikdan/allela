@@ -156,11 +156,14 @@ def test_score_all_structure():
 
 
 def test_score_all_no_raw_snps_in_output():
-    """Ensure raw SNP genotypes are not present in output."""
+    """Ensure raw SNP genotypes don't leak into disease/pgx/carrier output sections.
+    Genotypes are intentionally included in variant_table for display; all other
+    sections must not contain raw genotype values."""
     snps = {"rs429358": "SECRET_GENOTYPE", "rs7412": "CC"}
     result = score_all(snps)
-    result_str = str(result)
-    assert "SECRET_GENOTYPE" not in result_str
+    # Check sections that must never contain raw genotypes
+    for key in ("disease_risks", "pharmacogenomics", "carrier_status", "nutrigenomics", "traits", "priority_actions"):
+        assert "SECRET_GENOTYPE" not in str(result.get(key, "")), f"Raw genotype leaked into {key}"
 
 
 def test_score_all_sorted_by_risk():

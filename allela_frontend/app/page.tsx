@@ -156,6 +156,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <a href="#how-it-works" className="text-sm hidden sm:block" style={{ color: "var(--muted)" }}>How it works</a>
             <a href="#use-cases" className="text-sm hidden sm:block" style={{ color: "var(--muted)" }}>Use cases</a>
+            <Link href="/demo" className="text-sm hidden sm:block" style={{ color: "var(--muted)" }}>Sample Report</Link>
             <Link href="/upload"
               className="text-sm font-semibold px-4 py-2 rounded-lg transition-all hover:opacity-90"
               style={{ background: "var(--accent)", color: "#fff" }}>
