@@ -194,6 +194,49 @@
       ],
       "population_mean_score": 0.0,
       "population_std": 1.0
+    },
+    "age_related_macular_degeneration": {
+      "condition": "Age-Related Macular Degeneration",
+      "condition_key": "amd",
+      "population_lifetime_risk": 0.015,
+      "variants": [
+        {"rsid": "rs1061170",  "gene": "CFH",   "risk_allele": "C", "weight": 0.916},
+        {"rsid": "rs10490924", "gene": "ARMS2", "risk_allele": "T", "weight": 0.584},
+        {"rsid": "rs2230199",  "gene": "C3",    "risk_allele": "G", "weight": 0.405},
+        {"rsid": "rs1410996",  "gene": "CFH",   "risk_allele": "T", "weight": 0.255},
+        {"rsid": "rs3750846",  "gene": "HTRA1", "risk_allele": "C", "weight": 0.470}
+      ],
+      "population_mean_score": 0.0,
+      "population_std": 1.0
+    },
+    "osteoporosis": {
+      "condition": "Osteoporosis / Low Bone Density",
+      "condition_key": "osteoporosis",
+      "population_lifetime_risk": 0.15,
+      "variants": [
+        {"rsid": "rs3736228", "gene": "LRP5",   "risk_allele": "T", "weight": 0.140},
+        {"rsid": "rs2941740", "gene": "ESR1",   "risk_allele": "T", "weight": 0.113},
+        {"rsid": "rs9594738", "gene": "RANKL",  "risk_allele": "C", "weight": 0.122},
+        {"rsid": "rs7524102", "gene": "WNT16",  "risk_allele": "A", "weight": 0.140},
+        {"rsid": "rs9533090", "gene": "FAM3C",  "risk_allele": "C", "weight": 0.086},
+        {"rsid": "rs4988300", "gene": "LRP5",   "risk_allele": "T", "weight": 0.113}
+      ],
+      "population_mean_score": 0.0,
+      "population_std": 1.0
+    },
+    "inflammatory_bowel_disease": {
+      "condition": "Inflammatory Bowel Disease",
+      "condition_key": "ibd",
+      "population_lifetime_risk": 0.015,
+      "variants": [
+        {"rsid": "rs2201841",  "gene": "IL23R",   "risk_allele": "G", "weight": 0.431},
+        {"rsid": "rs17234657", "gene": "ATG16L1", "risk_allele": "T", "weight": 0.262},
+        {"rsid": "rs9858542",  "gene": "BSN",     "risk_allele": "A", "weight": 0.262},
+        {"rsid": "rs2066847",  "gene": "NOD2",    "risk_allele": "C", "weight": 0.431},
+        {"rsid": "rs1801274",  "gene": "FCGR2A",  "risk_allele": "A", "weight": 0.182}
+      ],
+      "population_mean_score": 0.0,
+      "population_std": 1.0
     }
   },
   "pharmacogenomics": [
@@ -251,6 +294,295 @@
       "drug_classes": ["Warfarin (anticoagulant)"],
       "clinical_guidance": "Standard warfarin doses may cause over-anticoagulation and bleeding risk. Dose reduction typically required.",
       "source": "CPIC"
+    },
+    {
+      "rsid": "rs1799853",
+      "gene": "CYP2C9",
+      "star_allele": "*2",
+      "risk_allele": "T",
+      "ref_allele": "C",
+      "effect": "Intermediate metabolizer allele — reduced metabolism of warfarin, NSAIDs, and phenytoin",
+      "drug_classes": ["Warfarin", "NSAIDs (celecoxib, ibuprofen)", "Sulfonylureas"],
+      "clinical_guidance": "Warfarin dose requirements are typically 15–20% lower. Monitor INR closely during initiation.",
+      "source": "CPIC"
+    },
+    {
+      "rsid": "rs1057910",
+      "gene": "CYP2C9",
+      "star_allele": "*3",
+      "risk_allele": "C",
+      "ref_allele": "A",
+      "effect": "Poor metabolizer allele — severely reduced CYP2C9 activity",
+      "drug_classes": ["Warfarin", "NSAIDs", "Phenytoin", "Sulfonylureas"],
+      "clinical_guidance": "Major warfarin dose reduction required (up to 80% lower). NSAIDs may accumulate to toxic levels. Use lowest effective doses.",
+      "source": "CPIC"
+    },
+    {
+      "rsid": "rs4986893",
+      "gene": "CYP2C19",
+      "star_allele": "*3",
+      "risk_allele": "A",
+      "ref_allele": "G",
+      "effect": "Loss-of-function allele — combined with *2 creates poor metabolizer phenotype",
+      "drug_classes": ["SSRIs", "Clopidogrel", "Proton pump inhibitors"],
+      "clinical_guidance": "If combined with CYP2C19 *2, full poor metabolizer status — clopidogrel therapy likely ineffective.",
+      "source": "CPIC"
+    }
+  ],
+  "carrier_status": [
+    {
+      "rsid": "rs113993960",
+      "gene": "CFTR",
+      "condition": "Cystic Fibrosis",
+      "condition_key": "cystic_fibrosis",
+      "variant_name": "ΔF508 (c.1521_1523del)",
+      "risk_allele": "A",
+      "inheritance": "autosomal_recessive",
+      "carrier_frequency": 0.032,
+      "effect": "Most common CF-causing variant (~70% of CF alleles). Carriers are healthy.",
+      "source": "ClinVar Pathogenic"
+    },
+    {
+      "rsid": "rs75527207",
+      "gene": "CFTR",
+      "condition": "Cystic Fibrosis",
+      "condition_key": "cystic_fibrosis",
+      "variant_name": "G542X (c.1624G>T)",
+      "risk_allele": "A",
+      "inheritance": "autosomal_recessive",
+      "carrier_frequency": 0.005,
+      "effect": "Second most common CF-causing variant in Europeans.",
+      "source": "ClinVar Pathogenic"
+    },
+    {
+      "rsid": "rs334",
+      "gene": "HBB",
+      "condition": "Sickle Cell Anemia",
+      "condition_key": "sickle_cell",
+      "variant_name": "HbS (E6V, c.20A>T)",
+      "risk_allele": "T",
+      "inheritance": "autosomal_recessive",
+      "carrier_frequency": 0.08,
+      "effect": "Sickle hemoglobin allele. Carriers (HbAS) are generally healthy with slight malaria protection.",
+      "source": "ClinVar Pathogenic"
+    },
+    {
+      "rsid": "rs80338943",
+      "gene": "GJB2",
+      "condition": "Hereditary Hearing Loss",
+      "condition_key": "hearing_loss_gjb2",
+      "variant_name": "35delG (c.35delG)",
+      "risk_allele": "A",
+      "inheritance": "autosomal_recessive",
+      "carrier_frequency": 0.025,
+      "effect": "Most common hereditary hearing loss variant in Europeans. Carriers have normal hearing.",
+      "source": "ClinVar Pathogenic"
+    },
+    {
+      "rsid": "rs28931614",
+      "gene": "HEXA",
+      "condition": "Tay-Sachs Disease",
+      "condition_key": "tay_sachs",
+      "variant_name": "c.1278insTATC",
+      "risk_allele": "A",
+      "inheritance": "autosomal_recessive",
+      "carrier_frequency": 0.033,
+      "effect": "Common Tay-Sachs variant in Ashkenazi Jewish population. Carriers are healthy.",
+      "source": "ClinVar Pathogenic"
+    },
+    {
+      "rsid": "rs421016",
+      "gene": "GBA",
+      "condition": "Gaucher Disease",
+      "condition_key": "gaucher",
+      "variant_name": "L444P (c.1448T>C)",
+      "risk_allele": "C",
+      "inheritance": "autosomal_recessive",
+      "carrier_frequency": 0.005,
+      "effect": "GBA L444P — causes severe (type 3) Gaucher disease when homozygous. Carriers are healthy.",
+      "source": "ClinVar Pathogenic"
+    }
+  ],
+  "nutrigenomics": [
+    {
+      "rsid": "rs4988235",
+      "gene": "LCT",
+      "trait": "Lactose Tolerance",
+      "trait_key": "lactose_tolerance",
+      "category": "Digestive",
+      "risk_allele": "T",
+      "effect_0": "Lactase persistence — tolerates dairy well into adulthood",
+      "effect_1": "Partial lactase persistence — may have mild lactose sensitivity",
+      "effect_2": "Lactose intolerant — reduced lactase production; consider limiting dairy or using lactase supplements",
+      "source": "Multiple GWAS"
+    },
+    {
+      "rsid": "rs762551",
+      "gene": "CYP1A2",
+      "trait": "Caffeine Metabolism",
+      "trait_key": "caffeine_metabolism",
+      "category": "Metabolism",
+      "risk_allele": "C",
+      "effect_0": "Fast caffeine metabolizer — caffeine clears quickly; lower cardiovascular risk at moderate intake",
+      "effect_1": "Intermediate caffeine metabolizer — moderate clearance rate",
+      "effect_2": "Slow caffeine metabolizer — caffeine lingers longer; elevated heart attack risk at high intake (>4 cups/day)",
+      "source": "Multiple GWAS"
+    },
+    {
+      "rsid": "rs2282679",
+      "gene": "GC",
+      "trait": "Vitamin D Levels",
+      "trait_key": "vitamin_d",
+      "category": "Vitamins & Minerals",
+      "risk_allele": "T",
+      "effect_0": "Normal vitamin D-binding protein — typical transport capacity",
+      "effect_1": "Moderately reduced vitamin D transport — consider supplementation (1000–2000 IU/day)",
+      "effect_2": "Significantly reduced vitamin D transport — higher deficiency risk; supplementation recommended",
+      "source": "Multiple GWAS"
+    },
+    {
+      "rsid": "rs1801133",
+      "gene": "MTHFR",
+      "trait": "Folate Metabolism (C677T)",
+      "trait_key": "mthfr_677",
+      "category": "Vitamins & Minerals",
+      "risk_allele": "T",
+      "effect_0": "Normal MTHFR C677T status — standard folate metabolism",
+      "effect_1": "~35% reduced MTHFR activity — increased methylfolate and B12 needs",
+      "effect_2": "~70% reduced MTHFR activity — elevated homocysteine risk; methylfolate supplementation recommended over folic acid",
+      "source": "ClinVar / GWAS"
+    },
+    {
+      "rsid": "rs1801131",
+      "gene": "MTHFR",
+      "trait": "Folate Metabolism (A1298C)",
+      "trait_key": "mthfr_1298",
+      "category": "Vitamins & Minerals",
+      "risk_allele": "C",
+      "effect_0": "Normal MTHFR A1298C status",
+      "effect_1": "Mildly reduced BH4 synthesis — may affect neurotransmitter production",
+      "effect_2": "Reduced BH4 pathway — may affect dopamine/serotonin synthesis; consider methylfolate",
+      "source": "ClinVar"
+    },
+    {
+      "rsid": "rs671",
+      "gene": "ALDH2",
+      "trait": "Alcohol Flush Reaction",
+      "trait_key": "alcohol_flush",
+      "category": "Alcohol Metabolism",
+      "risk_allele": "A",
+      "effect_0": "Normal aldehyde metabolism — no genetic alcohol flush",
+      "effect_1": "Reduced ALDH2 activity — alcohol flush reaction likely; elevated acetaldehyde exposure",
+      "effect_2": "Very low ALDH2 activity — strong flush reaction; significantly elevated esophageal cancer risk with regular alcohol use",
+      "source": "ClinVar / GWAS"
+    },
+    {
+      "rsid": "rs174537",
+      "gene": "FADS1",
+      "trait": "Omega-3 Fatty Acid Conversion",
+      "trait_key": "omega3_conversion",
+      "category": "Nutrition",
+      "risk_allele": "T",
+      "effect_0": "High FADS1 activity — efficient conversion of plant-based ALA to EPA/DHA",
+      "effect_1": "Intermediate omega-3 conversion efficiency",
+      "effect_2": "Lower ALA-to-EPA/DHA conversion — direct EPA/DHA from fish or algae oil recommended",
+      "source": "GWAS Catalog"
+    },
+    {
+      "rsid": "rs713598",
+      "gene": "TAS2R38",
+      "trait": "Bitter Taste Sensitivity",
+      "trait_key": "bitter_taste",
+      "category": "Taste & Food Preferences",
+      "risk_allele": "C",
+      "effect_0": "Non-taster — insensitive to PROP/PTC bitter compounds; may enjoy bitter foods more",
+      "effect_1": "Medium taster — moderate bitter sensitivity",
+      "effect_2": "Super-taster — very sensitive to bitter flavors; may dislike cruciferous vegetables and dark coffee",
+      "source": "Multiple GWAS"
+    }
+  ],
+  "traits": [
+    {
+      "rsid": "rs12913832",
+      "gene": "HERC2",
+      "trait": "Eye Color",
+      "trait_key": "eye_color",
+      "category": "Physical Traits",
+      "interpretations": {
+        "GG": "Likely blue or light-colored eyes",
+        "AG": "Likely intermediate (hazel or green) eyes",
+        "GA": "Likely intermediate (hazel or green) eyes",
+        "AA": "Likely brown eyes"
+      },
+      "note": "Primary genetic determinant; other genes (OCA2, SLC45A2) also contribute.",
+      "source": "Multiple GWAS"
+    },
+    {
+      "rsid": "rs1805008",
+      "gene": "MC1R",
+      "trait": "Red Hair Risk",
+      "trait_key": "red_hair",
+      "category": "Physical Traits",
+      "risk_allele": "T",
+      "effect_0": "No MC1R R151C — low genetic red hair signal",
+      "effect_1": "One MC1R R151C allele — increased red/auburn hair possibility; heightened UV sensitivity",
+      "effect_2": "Two MC1R R151C alleles — strong red hair genetic signal; significantly increased UV sensitivity",
+      "note": "MC1R variants also increase sensitivity to UV radiation and anesthetic requirements.",
+      "source": "Multiple GWAS"
+    },
+    {
+      "rsid": "rs17822931",
+      "gene": "ABCC11",
+      "trait": "Earwax Type",
+      "trait_key": "earwax_type",
+      "category": "Physical Traits",
+      "interpretations": {
+        "TT": "Wet/sticky earwax — common in European and African populations",
+        "CT": "Wet/sticky earwax (heterozygous)",
+        "TC": "Wet/sticky earwax (heterozygous)",
+        "CC": "Dry/flaky earwax — common in East Asian populations; also associated with reduced body odor"
+      },
+      "source": "Multiple GWAS"
+    },
+    {
+      "rsid": "rs1801260",
+      "gene": "CLOCK",
+      "trait": "Sleep Chronotype",
+      "trait_key": "sleep_chronotype",
+      "category": "Behavioral Traits",
+      "risk_allele": "G",
+      "effect_0": "Morning preference (early bird) genetic tendency",
+      "effect_1": "Intermediate chronotype",
+      "effect_2": "Evening preference (night owl) genetic tendency",
+      "source": "GWAS Catalog"
+    },
+    {
+      "rsid": "rs1815739",
+      "gene": "ACTN3",
+      "trait": "Muscle Fiber Composition",
+      "trait_key": "muscle_composition",
+      "category": "Athletic Traits",
+      "interpretations": {
+        "CC": "R577R — power/sprint athlete profile; alpha-actinin-3 present in fast-twitch fibers",
+        "CT": "Mixed muscle fiber profile",
+        "TC": "Mixed muscle fiber profile",
+        "TT": "R577X — no alpha-actinin-3; endurance athlete profile; better aerobic training adaptation"
+      },
+      "note": "Olympic sprinters rarely carry TT; endurance athletes have elevated TT frequency.",
+      "source": "Multiple GWAS"
+    },
+    {
+      "rsid": "rs6152",
+      "gene": "AR",
+      "trait": "Androgenic Hair Loss Risk (Males)",
+      "trait_key": "hair_loss",
+      "category": "Physical Traits",
+      "risk_allele": "A",
+      "effect_0": "Lower androgen receptor activity — reduced genetic hair loss risk from X-linked locus",
+      "effect_1": "Intermediate androgenic hair loss risk",
+      "effect_2": "Higher androgen receptor activity — elevated androgenic alopecia risk",
+      "note": "X-linked; males have one copy, so effect is direct. Multiple autosomal loci also contribute.",
+      "source": "Multiple GWAS"
     }
   ]
 }

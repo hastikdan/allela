@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Logo from "../components/Logo";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -88,9 +89,7 @@ export default function UploadPage() {
 
       {/* Header */}
       <div className="text-center mb-10">
-        <a href="/" className="text-2xl font-bold tracking-tight" style={{ color: "var(--foreground)" }}>
-          allela
-        </a>
+        <a href="/"><Logo size={26} /></a>
         <h1 className="text-3xl font-bold mt-6 mb-3" style={{ color: "var(--foreground)" }}>
           Upload your DNA file
         </h1>
@@ -115,10 +114,9 @@ export default function UploadPage() {
             placeholder="you@example.com"
             className="w-full rounded-lg px-4 py-2 text-sm outline-none focus:ring-2"
             style={{
-              background: "#0a0a0f",
+              background: "var(--card)",
               border: "1px solid var(--border)",
               color: "var(--foreground)",
-              ringColor: "var(--accent)"
             }}
           />
         </div>

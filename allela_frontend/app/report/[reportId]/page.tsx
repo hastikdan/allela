@@ -455,7 +455,7 @@ export default function ReportPage() {
                 <button
                   onClick={() => setExpandedVariants(v => !v)}
                   className="w-full flex items-center justify-between px-5 py-3 rounded-xl"
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}>
+                  style={{ background: "var(--card-alt)", border: "1px solid var(--border)" }}>
                   <span className="text-xs font-semibold" style={{ color: "var(--muted)" }}>
                     Live Variant Table — {variant_table.length} variants enriched from 4 databases
                   </span>

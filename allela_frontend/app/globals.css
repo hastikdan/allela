@@ -1,13 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0f;
-  --foreground: #e2e8f0;
-  --card: #111118;
-  --border: #1e1e2e;
-  --accent: #6366f1;
-  --accent-glow: rgba(99,102,241,0.2);
-  --muted: #64748b;
+  --background:   #f8fafc;
+  --foreground:   #0f172a;
+  --card:         #ffffff;
+  --card-alt:     #f1f5f9;
+  --border:       #e2e8f0;
+  --accent:       #6366f1;
+  --accent-dark:  #4f46e5;
+  --accent-glow:  rgba(99,102,241,0.14);
+  --muted:        #64748b;
+  --muted-light:  #94a3b8;
+  --green:        #10b981;
+  --orange:       #f97316;
+  --red:          #ef4444;
+  --amber:        #f59e0b;
+  --blue:         #3b82f6;
+  --teal:         #0d9488;
 }
 
 @theme inline {
@@ -17,18 +26,44 @@
   --font-mono: var(--font-geist-mono);
 }
 
+* { box-sizing: border-box; }
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-.risk-high         { color: #ef4444; }
-.risk-elevated     { color: #f97316; }
-.risk-average      { color: #22c55e; }
+/* ── Risk tier colours ─────────────────────────────── */
+.risk-high          { color: #ef4444; }
+.risk-elevated      { color: #f97316; }
+.risk-average       { color: #0d9488; }
 .risk-below_average { color: #3b82f6; }
 
-.badge-high         { background: rgba(239,68,68,0.13); color: #ef4444; border: 1px solid rgba(239,68,68,0.27); }
-.badge-elevated     { background: rgba(249,115,22,0.13); color: #f97316; border: 1px solid rgba(249,115,22,0.27); }
-.badge-average      { background: rgba(34,197,94,0.13); color: #22c55e; border: 1px solid rgba(34,197,94,0.27); }
-.badge-below_average { background: rgba(59,130,246,0.13); color: #3b82f6; border: 1px solid rgba(59,130,246,0.27); }
+.badge-high         { background: rgba(239,68,68,0.10);   color: #dc2626; border: 1px solid rgba(239,68,68,0.30); }
+.badge-elevated     { background: rgba(249,115,22,0.10);  color: #ea580c; border: 1px solid rgba(249,115,22,0.30); }
+.badge-average      { background: rgba(16,185,129,0.10);  color: #059669; border: 1px solid rgba(16,185,129,0.30); }
+.badge-below_average{ background: rgba(59,130,246,0.10);  color: #2563eb; border: 1px solid rgba(59,130,246,0.30); }
+
+/* ── Gradient utilities ────────────────────────────── */
+.hero-gradient {
+  background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 40%, #fdf4ff 100%);
+}
+
+.section-alt {
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+.accent-gradient {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+/* ── Card shadows ──────────────────────────────────── */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.card-shadow-lg {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 10px 40px rgba(99,102,241,0.10);
+}

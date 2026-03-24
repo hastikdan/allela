@@ -582,7 +582,7 @@ export default function DemoPage() {
         <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
           <table className="w-full">
             <thead>
-              <tr style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid var(--border)" }}>
+              <tr style={{ background: "var(--card-alt)", borderBottom: "1px solid var(--border)" }}>
                 {["Drug / Class", "Gene", "What to Say"].map(h => (
                   <th key={h} className="text-left px-4 py-3 text-xs font-bold uppercase tracking-wider"
                     style={{ color: "var(--muted)" }}>{h}</th>
@@ -723,7 +723,7 @@ export default function DemoPage() {
                     )}
                     {risk.note && (
                       <p className="mt-3 text-xs italic px-3 py-2 rounded-lg"
-                        style={{ color: "var(--muted)", background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}>
+                        style={{ color: "var(--muted)", background: "var(--card-alt)", border: "1px solid var(--border)" }}>
                         ℹ️ {risk.note}
                       </p>
                     )}
@@ -799,7 +799,7 @@ export default function DemoPage() {
                 <div className="mt-2 rounded-xl overflow-x-auto" style={{ border: "1px solid var(--border)" }}>
                   <table className="w-full text-xs min-w-[700px]">
                     <thead>
-                      <tr style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid var(--border)" }}>
+                      <tr style={{ background: "var(--card-alt)", borderBottom: "1px solid var(--border)" }}>
                         {["rsID", "Genotype", "Gene", "Condition", "Clinical Sig.", "gnomAD freq", "GWAS Traits"].map(h => (
                           <th key={h} className="text-left px-3 py-3 font-bold uppercase tracking-wider text-xs whitespace-nowrap"
                             style={{ color: "var(--muted)" }}>{h}</th>
@@ -811,7 +811,7 @@ export default function DemoPage() {
                         const sigColor = CLIN_SIG_COLOR[row.clinical_significance] || "var(--muted)";
                         return (
                           <tr key={row.rsid}
-                            style={{ borderBottom: "1px solid var(--border)", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
+                            style={{ borderBottom: "1px solid var(--border)", background: i % 2 === 0 ? "transparent" : "var(--card-alt)" }}>
                             <td className="px-3 py-2.5 font-mono text-xs" style={{ color: "var(--accent)" }}>{row.rsid}</td>
                             <td className="px-3 py-2.5">
                               <span className="font-mono font-black text-sm" style={{ color: "var(--foreground)" }}>{row.genotype}</span>
