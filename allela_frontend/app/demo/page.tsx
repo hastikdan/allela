@@ -323,6 +323,31 @@ const SAMPLE_REPORT = {
       { rsid: "rs1801133", genotype: "AG", gene: "MTHFR", condition: "Methylenetetrahydrofolate reductase deficiency", clinical_significance: "Likely Benign", gnomad_af: 0.312, gwas_traits: ["Homocysteine levels", "Folate metabolism"] },
       { rsid: "rs2200733", genotype: "CT", gene: "PITX2", condition: "Atrial fibrillation", clinical_significance: "VUS", gnomad_af: 0.118, gwas_traits: ["Atrial fibrillation"] },
     ],
+    carrier_status: [
+      { condition: "Cystic Fibrosis", condition_key: "cystic_fibrosis", gene: "CFTR", inheritance: "autosomal_recessive", carrier_frequency: 0.032, status: "carrier", risk_copies: 1, hits: [{ rsid: "rs113993960", gene: "CFTR", variant_name: "ΔF508 (c.1521_1523del)", copies: 1, effect: "Most common CF-causing variant (~70% of CF alleles). Carriers are healthy." }], effect: "" },
+      { condition: "Sickle Cell Anemia", condition_key: "sickle_cell", gene: "HBB", inheritance: "autosomal_recessive", carrier_frequency: 0.08, status: "not_detected", risk_copies: 0, hits: [], effect: "" },
+      { condition: "Hereditary Hearing Loss", condition_key: "hearing_loss_gjb2", gene: "GJB2", inheritance: "autosomal_recessive", carrier_frequency: 0.025, status: "not_detected", risk_copies: 0, hits: [], effect: "" },
+      { condition: "Tay-Sachs Disease", condition_key: "tay_sachs", gene: "HEXA", inheritance: "autosomal_recessive", carrier_frequency: 0.033, status: "not_detected", risk_copies: 0, hits: [], effect: "" },
+      { condition: "Gaucher Disease", condition_key: "gaucher", gene: "GBA", inheritance: "autosomal_recessive", carrier_frequency: 0.005, status: "not_detected", risk_copies: 0, hits: [], effect: "" },
+    ],
+    nutrigenomics: [
+      { trait: "Lactose Tolerance", trait_key: "lactose_tolerance", gene: "LCT", rsid: "rs4988235", genotype: "TT", category: "Digestive", copies_of_risk_allele: 0, result: "Lactase persistence — tolerates dairy well into adulthood." },
+      { trait: "Caffeine Metabolism", trait_key: "caffeine_metabolism", gene: "CYP1A2", rsid: "rs762551", genotype: "AC", category: "Metabolism", copies_of_risk_allele: 1, result: "Intermediate caffeine metabolizer — moderate clearance rate. Limit to 2–3 cups/day." },
+      { trait: "Vitamin D Levels", trait_key: "vitamin_d", gene: "GC", rsid: "rs2282679", genotype: "TT", category: "Vitamins & Minerals", copies_of_risk_allele: 2, result: "Significantly reduced vitamin D transport — higher deficiency risk; supplementation recommended (2000 IU/day)." },
+      { trait: "Folate Metabolism (C677T)", trait_key: "mthfr_c677t", gene: "MTHFR", rsid: "rs1801133", genotype: "CT", category: "Vitamins & Minerals", copies_of_risk_allele: 1, result: "~35% reduced MTHFR activity — increased methylfolate and B12 needs. Use methylfolate over folic acid." },
+      { trait: "Folate Metabolism (A1298C)", trait_key: "mthfr_a1298c", gene: "MTHFR", rsid: "rs1801131", genotype: "AA", category: "Vitamins & Minerals", copies_of_risk_allele: 0, result: "Normal MTHFR A1298C status." },
+      { trait: "Alcohol Flush Reaction", trait_key: "alcohol_flush", gene: "ALDH2", rsid: "rs671", genotype: "GG", category: "Alcohol Metabolism", copies_of_risk_allele: 0, result: "Normal aldehyde metabolism — no genetic alcohol flush reaction." },
+      { trait: "Omega-3 Fatty Acid Conversion", trait_key: "omega3_conversion", gene: "FADS1", rsid: "rs174537", genotype: "GT", category: "Nutrition", copies_of_risk_allele: 1, result: "Intermediate omega-3 conversion efficiency. Mixed plant + marine omega-3 sources recommended." },
+      { trait: "Bitter Taste Sensitivity", trait_key: "bitter_taste", gene: "TAS2R38", rsid: "rs713598", genotype: "CG", category: "Taste & Food Preferences", copies_of_risk_allele: 1, result: "Medium taster — moderate bitter sensitivity. May find some bitter foods unpleasant." },
+    ],
+    traits: [
+      { trait: "Eye Color", trait_key: "eye_color", gene: "HERC2", rsid: "rs12913832", genotype: "AG", category: "Physical Traits", result: "Likely intermediate (hazel or green) eyes", note: "Primary genetic determinant; other genes (OCA2, SLC45A2) also contribute." },
+      { trait: "Earwax Type", trait_key: "earwax_type", gene: "ABCC11", rsid: "rs17822931", genotype: "CT", category: "Physical Traits", result: "Wet/sticky earwax (heterozygous)", note: "" },
+      { trait: "Red Hair Risk", trait_key: "red_hair", gene: "MC1R", rsid: "rs1805008", genotype: "GT", category: "Physical Traits", result: "One MC1R R151C allele — increased red/auburn hair possibility; heightened UV sensitivity", note: "MC1R variants also increase sensitivity to UV radiation and anesthetic requirements." },
+      { trait: "Androgenic Hair Loss Risk (Males)", trait_key: "hair_loss", gene: "AR", rsid: "rs6152", genotype: "AG", category: "Physical Traits", result: "Intermediate androgenic hair loss risk", note: "X-linked; males have one copy, so effect is direct." },
+      { trait: "Muscle Fiber Composition", trait_key: "muscle_composition", gene: "ACTN3", rsid: "rs1815739", genotype: "CT", category: "Athletic Traits", result: "Mixed muscle fiber profile — balanced fast-twitch and slow-twitch composition", note: "Olympic sprinters rarely carry TT; endurance athletes have elevated TT frequency." },
+      { trait: "Sleep Chronotype", trait_key: "sleep_chronotype", gene: "CLOCK", rsid: "rs1801260", genotype: "GG", category: "Behavioral Traits", result: "Evening preference (night owl) genetic tendency — natural sleep timing skews later", note: "" },
+    ],
     disclaimer:
       "This report is for educational and informational purposes only. It does not constitute medical advice, diagnosis, or treatment. Consult a qualified healthcare provider before making any health decisions.",
   },
@@ -332,6 +357,10 @@ const SAMPLE_REPORT = {
 
 type RiskTier = "high" | "elevated" | "average" | "below_average";
 type Priority = "P1" | "P2" | "P3";
+
+interface CarrierResult { condition: string; condition_key: string; gene: string; inheritance: string; carrier_frequency: number; status: string; risk_copies: number; hits: any[]; effect: string; }
+interface NutritionResult { trait: string; trait_key: string; gene: string; rsid: string; genotype: string; category: string; copies_of_risk_allele: number; result: string; }
+interface TraitResult { trait: string; trait_key: string; gene: string; rsid: string; genotype: string; category: string; result: string; note: string; }
 
 const TIER_COLOR: Record<RiskTier, string> = {
   high: "#ef4444",
@@ -392,6 +421,8 @@ export default function DemoPage() {
     enrichment_stats,
     disclaimer,
   } = scores;
+
+  const { carrier_status = [], nutrigenomics = [], traits = [] } = scores as any;
 
   const [expandedDetails, setExpandedDetails] = useState(false);
   const [expandedVariants, setExpandedVariants] = useState(false);
@@ -864,6 +895,145 @@ export default function DemoPage() {
           </div>
         )}
       </div>
+
+      {/* ══ CARRIER STATUS ══ */}
+      <div className="px-6 mt-8 max-w-3xl mx-auto">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-xl">🧬</span>
+          <h2 className="text-lg font-bold" style={{ color: "var(--foreground)" }}>Carrier Status</h2>
+          <span className="text-xs font-medium px-2 py-0.5 rounded-full"
+            style={{ background: "var(--card-alt)", color: "var(--muted)" }}>
+            {(carrier_status as CarrierResult[]).length} conditions screened
+          </span>
+        </div>
+        {(carrier_status as CarrierResult[]).filter((c: CarrierResult) => c.status !== "not_detected").length === 0 ? (
+          <div className="rounded-2xl px-6 py-5 flex items-center gap-4"
+            style={{ background: "rgba(34,197,94,0.05)", border: "1px solid rgba(34,197,94,0.2)" }}>
+            <span className="text-2xl">✅</span>
+            <div>
+              <div className="font-bold text-sm" style={{ color: "var(--foreground)" }}>No carrier variants detected across all {(carrier_status as CarrierResult[]).length} conditions</div>
+              <p className="text-xs mt-1" style={{ color: "var(--muted)" }}>Screened for CF, Sickle Cell, Hearing Loss, Tay-Sachs, and Gaucher Disease.</p>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {(carrier_status as CarrierResult[]).filter((c: CarrierResult) => c.status !== "not_detected").map((c: CarrierResult) => (
+              <div key={c.condition_key} className="rounded-2xl p-5"
+                style={{ background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.25)" }}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl">🟡</span>
+                    <div>
+                      <div className="font-bold text-sm" style={{ color: "var(--foreground)" }}>{c.condition}</div>
+                      <div className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
+                        {c.gene} · {c.hits.map((h: any) => h.variant_name).filter(Boolean).join(", ")}
+                      </div>
+                      {c.hits.map((h: any, i: number) => (
+                        <p key={i} className="text-xs mt-1.5 leading-relaxed" style={{ color: "var(--muted)" }}>{h.effect}</p>
+                      ))}
+                    </div>
+                  </div>
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-lg flex-shrink-0"
+                    style={{ background: "rgba(249,115,22,0.15)", color: "#f97316" }}>CARRIER</span>
+                </div>
+                <div className="mt-3 text-xs p-3 rounded-xl leading-relaxed"
+                  style={{ background: "rgba(249,115,22,0.08)", color: "var(--foreground)", border: "1px solid rgba(249,115,22,0.15)" }}>
+                  <strong>Family planning note:</strong> If your partner also carries a <strong>{c.gene}</strong> variant, each pregnancy has a 25% chance of an affected child. Partner testing recommended.
+                </div>
+              </div>
+            ))}
+            <div className="text-xs px-4 py-2 rounded-xl" style={{ color: "var(--muted)", background: "var(--card-alt)" }}>
+              ✓ Not detected: {(carrier_status as CarrierResult[]).filter((c: CarrierResult) => c.status === "not_detected").map((c: CarrierResult) => c.condition).join(" · ")}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ══ NUTRITION & METABOLISM ══ */}
+      {(nutrigenomics as NutritionResult[]).length > 0 && (
+        <div className="px-6 mt-8 max-w-3xl mx-auto">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xl">🥑</span>
+            <h2 className="text-lg font-bold" style={{ color: "var(--foreground)" }}>Nutrition & Metabolism</h2>
+          </div>
+          <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
+            {["Digestive", "Metabolism", "Vitamins & Minerals", "Alcohol Metabolism", "Nutrition", "Taste & Food Preferences"].map(cat => {
+              const items = (nutrigenomics as NutritionResult[]).filter((n: NutritionResult) => n.category === cat);
+              if (items.length === 0) return null;
+              return (
+                <div key={cat}>
+                  <div className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider"
+                    style={{ background: "var(--card-alt)", borderBottom: "1px solid var(--border)", color: "var(--muted)" }}>
+                    {cat}
+                  </div>
+                  {items.map((n: NutritionResult) => {
+                    const dotColor = n.copies_of_risk_allele === 2 ? "#ef4444" : n.copies_of_risk_allele === 1 ? "#f97316" : "#22c55e";
+                    return (
+                      <div key={n.rsid} className="flex items-start gap-4 px-5 py-4"
+                        style={{ borderBottom: "1px solid var(--border)" }}>
+                        <div className="w-2 h-2 rounded-full flex-shrink-0 mt-1.5" style={{ background: dotColor }} />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between gap-3 flex-wrap">
+                            <span className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>{n.trait}</span>
+                            <span className="font-mono text-xs px-2 py-0.5 rounded-md"
+                              style={{ background: "rgba(99,102,241,0.08)", color: "var(--accent)" }}>
+                              {n.gene} · {n.rsid}
+                            </span>
+                          </div>
+                          <p className="text-xs mt-1.5 leading-relaxed" style={{ color: "var(--muted)" }}>{n.result}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ══ GENETIC TRAITS ══ */}
+      {(traits as TraitResult[]).length > 0 && (
+        <div className="px-6 mt-8 max-w-3xl mx-auto">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xl">🏃</span>
+            <h2 className="text-lg font-bold" style={{ color: "var(--foreground)" }}>Genetic Traits</h2>
+          </div>
+          <div className="space-y-3">
+            {["Physical Traits", "Athletic Traits", "Behavioral Traits"].map(cat => {
+              const items = (traits as TraitResult[]).filter((t: TraitResult) => t.category === cat);
+              if (items.length === 0) return null;
+              const catIcon: Record<string, string> = { "Physical Traits": "👁️", "Athletic Traits": "💪", "Behavioral Traits": "🧠" };
+              return (
+                <div key={cat} className="rounded-2xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
+                  <div className="px-5 py-3 flex items-center gap-2"
+                    style={{ background: "var(--card-alt)", borderBottom: "1px solid var(--border)" }}>
+                    <span className="text-base">{catIcon[cat] || "🔬"}</span>
+                    <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--muted)" }}>{cat}</span>
+                  </div>
+                  <div>
+                    {items.map((t: TraitResult, i: number) => (
+                      <div key={t.rsid} className="flex items-start justify-between gap-4 px-5 py-4"
+                        style={{ borderBottom: i < items.length - 1 ? "1px solid var(--border)" : "none" }}>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>{t.trait}</div>
+                          <div className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
+                            {t.gene} · <span className="font-mono">{t.rsid}</span> · genotype: <span className="font-mono font-bold">{t.genotype}</span>
+                          </div>
+                          {t.note && <p className="text-xs mt-1 italic" style={{ color: "var(--muted)" }}>{t.note}</p>}
+                        </div>
+                        <div className="text-right flex-shrink-0 max-w-xs">
+                          <div className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>{t.result}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* ══════════════════════════════════════════════════════════════
           6. PROTECTIVE FINDINGS

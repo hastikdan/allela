@@ -69,6 +69,40 @@ interface DoctorNote {
   what_to_say: string;
 }
 
+interface CarrierResult {
+  condition: string;
+  condition_key: string;
+  gene: string;
+  inheritance: string;
+  carrier_frequency: number;
+  status: "not_detected" | "carrier" | "two_variants";
+  risk_copies: number;
+  hits: { rsid: string; gene: string; variant_name: string; copies: number; effect: string }[];
+  effect: string;
+}
+
+interface NutritionResult {
+  trait: string;
+  trait_key: string;
+  gene: string;
+  rsid: string;
+  genotype: string;
+  category: string;
+  copies_of_risk_allele: number;
+  result: string;
+}
+
+interface TraitResult {
+  trait: string;
+  trait_key: string;
+  gene: string;
+  rsid: string;
+  genotype: string;
+  category: string;
+  result: string;
+  note: string;
+}
+
 interface Scores {
   disease_risks: DiseaseRisk[];
   pharmacogenomics: PGxFinding[];
@@ -84,6 +118,9 @@ interface Scores {
   variant_table?: VariantRow[];
   doctor_notes?: DoctorNote[];
   enrichment_stats?: EnrichmentStats;
+  carrier_status?: CarrierResult[];
+  nutrigenomics?: NutritionResult[];
+  traits?: TraitResult[];
   disclaimer: string;
 }
 
@@ -223,6 +260,9 @@ export default function ReportPage() {
     variant_table = [],
     doctor_notes = [],
     enrichment_stats,
+    carrier_status = [],
+    nutrigenomics = [],
+    traits = [],
     disclaimer,
   } = scores;
 
@@ -235,7 +275,7 @@ export default function ReportPage() {
 
       {/* ── Header ── */}
       <div className="px-6 pt-8 pb-4 max-w-3xl mx-auto">
-        <a href="/" className="text-lg font-bold tracking-tight" style={{ color: "var(--foreground)" }}>allela</a>
+        <a href="/"><Logo size={20} /></a>
         <div className="mt-6 flex items-center gap-3 flex-wrap">
           <h1 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>Your DNA Risk Report</h1>
           <span className="text-xs px-2 py-1 rounded-md" style={{ background: "var(--border)", color: "var(--muted)" }}>
@@ -516,6 +556,151 @@ export default function ReportPage() {
           </div>
         )}
       </div>
+
+      {/* ── Carrier Status ── */}
+      <div className="px-6 max-w-3xl mx-auto mb-6">
+        <h2 className="text-base font-bold mb-3 flex items-center gap-2" style={{ color: "var(--foreground)" }}>
+          🧬 Carrier Status
+          <span className="text-xs font-normal px-2 py-0.5 rounded-full"
+            style={{ background: "var(--card-alt)", color: "var(--muted)" }}>
+            {carrier_status.length} conditions screened
+          </span>
+        </h2>
+        {carrier_status.filter(c => c.status !== "not_detected").length === 0 ? (
+          <div className="rounded-xl px-5 py-4 flex items-center gap-3"
+            style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.2)" }}>
+            <span className="text-xl">✅</span>
+            <div>
+              <div className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>No carrier variants detected</div>
+              <p className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
+                Screened {carrier_status.length} serious recessive conditions — no pathogenic variants found.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {carrier_status.filter(c => c.status !== "not_detected").map(c => (
+              <div key={c.condition_key} className="rounded-xl p-4"
+                style={{ background: c.status === "two_variants" ? "rgba(239,68,68,0.06)" : "rgba(249,115,22,0.06)",
+                         border: `1px solid ${c.status === "two_variants" ? "rgba(239,68,68,0.25)" : "rgba(249,115,22,0.25)"}` }}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl mt-0.5">{c.status === "two_variants" ? "⚠️" : "🟡"}</span>
+                    <div>
+                      <div className="font-bold text-sm" style={{ color: "var(--foreground)" }}>{c.condition}</div>
+                      <div className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
+                        {c.gene} · {c.hits.map(h => h.variant_name).filter(Boolean).join(", ")}
+                      </div>
+                      {c.hits.map((h, i) => (
+                        <p key={i} className="text-xs mt-1.5 leading-relaxed" style={{ color: "var(--muted)" }}>{h.effect}</p>
+                      ))}
+                    </div>
+                  </div>
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-lg flex-shrink-0"
+                    style={{ background: c.status === "two_variants" ? "rgba(239,68,68,0.15)" : "rgba(249,115,22,0.15)",
+                             color: c.status === "two_variants" ? "#ef4444" : "#f97316" }}>
+                    {c.status === "two_variants" ? "TWO VARIANTS" : "CARRIER"}
+                  </span>
+                </div>
+                <div className="mt-3 text-xs px-3 py-2 rounded-lg leading-relaxed"
+                  style={{ background: "rgba(249,115,22,0.08)", color: "var(--foreground)", border: "1px solid rgba(249,115,22,0.15)" }}>
+                  <strong>Family planning note:</strong> If your partner also carries a variant in <strong>{c.gene}</strong>, each pregnancy has a 25% chance of an affected child. Partner testing is recommended.
+                </div>
+              </div>
+            ))}
+            {carrier_status.filter(c => c.status === "not_detected").length > 0 && (
+              <div className="text-xs px-3 py-2 rounded-lg" style={{ color: "var(--muted)", background: "var(--card-alt)" }}>
+                ✓ Not detected: {carrier_status.filter(c => c.status === "not_detected").map(c => c.condition).join(" · ")}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* ── Nutrition & Metabolism ── */}
+      {nutrigenomics.length > 0 && (
+        <div className="px-6 max-w-3xl mx-auto mb-6">
+          <h2 className="text-base font-bold mb-3 flex items-center gap-2" style={{ color: "var(--foreground)" }}>
+            🥑 Nutrition & Metabolism
+          </h2>
+          <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
+            {["Digestive", "Metabolism", "Vitamins & Minerals", "Alcohol Metabolism", "Nutrition", "Taste & Food Preferences"].map(cat => {
+              const items = nutrigenomics.filter(n => n.category === cat);
+              if (items.length === 0) return null;
+              return (
+                <div key={cat}>
+                  <div className="px-5 py-2 text-xs font-bold uppercase tracking-wider"
+                    style={{ background: "var(--card-alt)", borderBottom: "1px solid var(--border)", color: "var(--muted)" }}>
+                    {cat}
+                  </div>
+                  {items.map((n, i) => {
+                    const isFlag = n.copies_of_risk_allele >= 1;
+                    const isHigh = n.copies_of_risk_allele === 2;
+                    const dotColor = isHigh ? "#ef4444" : isFlag ? "#f97316" : "#22c55e";
+                    return (
+                      <div key={n.rsid} className="flex items-start gap-4 px-5 py-3.5"
+                        style={{ borderBottom: "1px solid var(--border)" }}>
+                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1.5" style={{ background: dotColor }} />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2 flex-wrap">
+                            <span className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>{n.trait}</span>
+                            <span className="font-mono text-xs px-1.5 py-0.5 rounded"
+                              style={{ background: "rgba(99,102,241,0.08)", color: "var(--accent)" }}>
+                              {n.gene} · {n.rsid}
+                            </span>
+                          </div>
+                          <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--muted)" }}>{n.result}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ── Genetic Traits ── */}
+      {traits.length > 0 && (
+        <div className="px-6 max-w-3xl mx-auto mb-6">
+          <h2 className="text-base font-bold mb-3 flex items-center gap-2" style={{ color: "var(--foreground)" }}>
+            🏃 Genetic Traits
+          </h2>
+          <div className="space-y-3">
+            {["Physical Traits", "Athletic Traits", "Behavioral Traits"].map(cat => {
+              const items = traits.filter(t => t.category === cat);
+              if (items.length === 0) return null;
+              const catIcon: Record<string, string> = { "Physical Traits": "👁️", "Athletic Traits": "💪", "Behavioral Traits": "🧠" };
+              return (
+                <div key={cat} className="rounded-xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
+                  <div className="px-5 py-2.5 flex items-center gap-2"
+                    style={{ background: "var(--card-alt)", borderBottom: "1px solid var(--border)" }}>
+                    <span>{catIcon[cat] || "🔬"}</span>
+                    <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--muted)" }}>{cat}</span>
+                  </div>
+                  <div className="divide-y" style={{ borderColor: "var(--border)" }}>
+                    {items.map(t => (
+                      <div key={t.rsid} className="flex items-start justify-between gap-4 px-5 py-3.5">
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>{t.trait}</div>
+                          <div className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
+                            {t.gene} · <span className="font-mono">{t.rsid}</span> · genotype: <span className="font-mono font-bold">{t.genotype}</span>
+                          </div>
+                          {t.note && <p className="text-xs mt-1 italic" style={{ color: "var(--muted)" }}>{t.note}</p>}
+                        </div>
+                        <div className="text-right flex-shrink-0 max-w-[180px]">
+                          <div className="text-sm font-semibold leading-tight" style={{ color: "var(--foreground)" }}>{t.result}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* ── 6. Protective Findings ── */}
       {protective.length > 0 && (

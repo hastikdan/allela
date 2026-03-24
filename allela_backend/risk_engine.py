@@ -529,6 +529,109 @@ def _build_summary_sentence(disease_risks: list[dict], pgx: list[dict]) -> str:
     return "Your results show " + "; ".join(parts) + "."
 
 
+
+# ── Carrier status ─────────────────────────────────────────────────────────
+
+def compute_carrier_status(snps: dict[str, str]) -> list[dict]:
+    """Check for recessive disease carrier variants grouped by condition."""
+    condition_variants: dict[str, list[dict]] = {}
+    for variant in _VARIANT_DB.get("carrier_status", []):
+        ck = variant["condition_key"]
+        condition_variants.setdefault(ck, []).append(variant)
+
+    results = []
+    for ck, variants in condition_variants.items():
+        total_risk_copies = 0
+        hits: list[dict] = []
+        for variant in variants:
+            genotype = snps.get(variant["rsid"])
+            if not genotype:
+                continue
+            copies = genotype.count(variant["risk_allele"])
+            if copies > 0:
+                total_risk_copies += copies
+                hits.append({
+                    "rsid": variant["rsid"],
+                    "gene": variant["gene"],
+                    "variant_name": variant.get("variant_name", ""),
+                    "copies": copies,
+                    "effect": variant["effect"],
+                })
+
+        status = "not_detected" if total_risk_copies == 0 else ("carrier" if total_risk_copies == 1 else "two_variants")
+        v0 = variants[0]
+        results.append({
+            "condition": v0["condition"],
+            "condition_key": ck,
+            "gene": v0["gene"],
+            "inheritance": v0.get("inheritance", "autosomal_recessive"),
+            "carrier_frequency": v0.get("carrier_frequency", 0.02),
+            "status": status,
+            "risk_copies": total_risk_copies,
+            "hits": hits,
+            "effect": v0.get("effect", ""),
+            "source": v0.get("source", "ClinVar"),
+        })
+    return results
+
+
+# ── Nutrigenomics ──────────────────────────────────────────────────────────
+
+def compute_nutrigenomics(snps: dict[str, str]) -> list[dict]:
+    """Evaluate nutrition and metabolism variants."""
+    results = []
+    for variant in _VARIANT_DB.get("nutrigenomics", []):
+        rsid = variant["rsid"]
+        genotype = snps.get(rsid)
+        if not genotype:
+            continue
+        copies = genotype.count(variant["risk_allele"])
+        result_text = variant.get(f"effect_{copies}", variant.get("effect_0", ""))
+        results.append({
+            "trait": variant["trait"],
+            "trait_key": variant.get("trait_key", variant["trait"].lower().replace(" ", "_")),
+            "gene": variant["gene"],
+            "rsid": rsid,
+            "genotype": genotype,
+            "category": variant.get("category", "Metabolism"),
+            "copies_of_risk_allele": copies,
+            "result": result_text,
+            "source": variant.get("source", "GWAS"),
+        })
+    return results
+
+
+# ── Genetic traits ─────────────────────────────────────────────────────────
+
+def compute_traits(snps: dict[str, str]) -> list[dict]:
+    """Evaluate genetic trait variants."""
+    results = []
+    for variant in _VARIANT_DB.get("traits", []):
+        rsid = variant["rsid"]
+        genotype = snps.get(rsid)
+        if not genotype:
+            continue
+        interps = variant.get("interpretations", {})
+        if interps:
+            result_text = interps.get(genotype) or interps.get(genotype[::-1], "")
+        elif "risk_allele" in variant:
+            copies = genotype.count(variant["risk_allele"])
+            result_text = variant.get(f"effect_{copies}", variant.get("effect_0", ""))
+        else:
+            result_text = ""
+        results.append({
+            "trait": variant["trait"],
+            "trait_key": variant["trait_key"],
+            "gene": variant["gene"],
+            "rsid": rsid,
+            "genotype": genotype,
+            "category": variant.get("category", "Physical Traits"),
+            "result": result_text,
+            "note": variant.get("note", ""),
+            "source": variant.get("source", "GWAS"),
+        })
+    return results
+
 # ── Master scorer ──────────────────────────────────────────────────────────
 
 def score_all(snps: dict[str, str], enrichment: Optional[dict] = None) -> dict:
@@ -550,6 +653,9 @@ def score_all(snps: dict[str, str], enrichment: Optional[dict] = None) -> dict:
     disease_risks.sort(key=lambda r: (tier_order.get(r["risk_tier"], 9), -r["lifetime_risk_pct"]))
 
     pgx = compute_pgx(snps)
+    carrier_status  = compute_carrier_status(snps)
+    nutrigenomics   = compute_nutrigenomics(snps)
+    traits          = compute_traits(snps)
 
     overall_score   = _compute_overall_score(disease_risks, pgx)
     priority_actions = _generate_priority_actions(disease_risks, pgx)
@@ -558,14 +664,22 @@ def score_all(snps: dict[str, str], enrichment: Optional[dict] = None) -> dict:
     enrichment_stats = _compute_enrichment_stats(enrichment)
     summary_sentence = _build_summary_sentence(disease_risks, pgx)
 
+    carrier_detected = sum(1 for c in carrier_status if c["status"] != "not_detected")
+
     return {
         "disease_risks": disease_risks,
         "pharmacogenomics": pgx,
+        "carrier_status": carrier_status,
+        "nutrigenomics": nutrigenomics,
+        "traits": traits,
         "summary": {
             "conditions_evaluated": len(disease_risks),
             "high_risk_count": sum(1 for r in disease_risks if r["risk_tier"] == "high"),
             "elevated_risk_count": sum(1 for r in disease_risks if r["risk_tier"] == "elevated"),
             "pgx_findings_count": len(pgx),
+            "carrier_detected": carrier_detected,
+            "nutrition_traits": len(nutrigenomics),
+            "genetic_traits": len(traits),
         },
         "overall_risk_score": overall_score,
         "summary_sentence": summary_sentence,
