@@ -46,8 +46,6 @@ export default function UploadPage() {
   const [error, setError] = useState("");
   const [dragOver, setDragOver] = useState(false);
   const [email, setEmail] = useState("");
-  const [loadingSample, setLoadingSample] = useState<string | null>(null);
-
   const handleFile = useCallback(async (file: File) => {
     if (!file.name.endsWith(".txt") && file.type !== "text/plain") {
       setError("Please upload a .txt file exported from 23andMe, AncestryDNA, or MyHeritage.");
@@ -101,23 +99,6 @@ export default function UploadPage() {
       setStage("error");
     }
   }, [email]);
-
-  const loadSampleProfile = useCallback(async (profile: typeof SAMPLE_PROFILES[0]) => {
-    setLoadingSample(profile.id);
-    setError("");
-    try {
-      const res = await fetch(profile.file);
-      const text = await res.text();
-      const blob = new Blob([text], { type: "text/plain" });
-      const file = new File([blob], `${profile.id}.txt`, { type: "text/plain" });
-      await handleFile(file);
-    } catch {
-      setError("Failed to load sample file. Please try again.");
-      setStage("idle");
-    } finally {
-      setLoadingSample(null);
-    }
-  }, [handleFile]);
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -187,16 +168,14 @@ export default function UploadPage() {
               {SAMPLE_PROFILES.map(p => (
                 <button
                   key={p.id}
-                  onClick={() => loadSampleProfile(p)}
-                  disabled={loadingSample !== null}
-                  className="text-left p-3 rounded-xl transition-all hover:opacity-80 disabled:opacity-40"
+                  onClick={() => router.push(`/demo?profile=${p.id}`)}
+                  className="text-left p-3 rounded-xl transition-all hover:scale-[1.02] hover:shadow-md cursor-pointer"
                   style={{ background: "var(--card-alt)", border: "1px solid var(--border)" }}
                 >
                   <div className="text-lg mb-1">{p.icon}</div>
-                  <div className="text-xs font-semibold leading-tight" style={{ color: "var(--foreground)" }}>
-                    {loadingSample === p.id ? "Loading..." : p.label}
-                  </div>
+                  <div className="text-xs font-semibold leading-tight" style={{ color: "var(--foreground)" }}>{p.label}</div>
                   <div className="text-xs mt-1 leading-tight" style={{ color: "var(--muted)" }}>{p.desc}</div>
+                  <div className="text-xs mt-2 font-semibold" style={{ color: "var(--accent)" }}>View sample report →</div>
                 </button>
               ))}
             </div>

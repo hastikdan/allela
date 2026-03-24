@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import { SAMPLE_PROFILE_SCORES } from "./sampleScores";
 
 // ── Sample report data ─────────────────────────────────────────────────────
 
@@ -423,8 +425,25 @@ function formatFreq(af: number | null) {
 
 // ── Component ──────────────────────────────────────────────────────────────
 
+const PROFILE_META: Record<string, { label: string; icon: string; snp_count: number }> = {
+  "high-cardiovascular-risk": { label: "High Cardiovascular Risk", icon: "❤️", snp_count: 638_102 },
+  "athletic-longevity":       { label: "Athletic & Longevity",       icon: "🏃", snp_count: 601_887 },
+  "nutrition-mthfr":          { label: "Nutrition & MTHFR",          icon: "🥑", snp_count: 622_441 },
+  "carrier-screening":        { label: "Carrier Screening Focus",    icon: "🧬", snp_count: 614_553 },
+};
+
 export default function DemoPage() {
-  const { scores } = SAMPLE_REPORT;
+  const searchParams = useSearchParams();
+  const profileId = searchParams.get("profile") ?? "";
+  const profileScores = SAMPLE_PROFILE_SCORES[profileId];
+  const profileMeta = PROFILE_META[profileId];
+
+  // Use live profile scores when a valid profile is selected; fall back to hardcoded demo
+  const activeScores = useMemo(() => profileScores ?? SAMPLE_REPORT.scores, [profileScores]);
+  const snpCount = profileMeta?.snp_count ?? SAMPLE_REPORT.snp_count;
+  const profileLabel = profileMeta ? `${profileMeta.icon} ${profileMeta.label}` : null;
+
+  const scores = activeScores as any;
   const {
     overall_risk_score,
     summary_sentence,
@@ -438,7 +457,7 @@ export default function DemoPage() {
     disclaimer,
   } = scores;
 
-  const { carrier_status = [], nutrigenomics = [], traits = [], mental_health = [], longevity = [] } = scores as any;
+  const { carrier_status = [], nutrigenomics = [], traits = [], mental_health = [], longevity = [] } = scores;
 
   const [expandedDetails, setExpandedDetails] = useState(false);
   const [expandedVariants, setExpandedVariants] = useState(false);
@@ -456,7 +475,9 @@ export default function DemoPage() {
       {/* ── Demo banner ── */}
       <div className="py-2 text-center text-xs font-semibold"
         style={{ background: "rgba(99,102,241,0.15)", color: "var(--accent)", borderBottom: "1px solid rgba(99,102,241,0.2)" }}>
-        SAMPLE REPORT — showing how your report will look with real DNA data
+        {profileLabel
+          ? `SAMPLE PROFILE: ${profileLabel} — showing a real analysis result`
+          : "SAMPLE REPORT — showing how your report will look with real DNA data"}
       </div>
 
       {/* ── Header ── */}
@@ -466,7 +487,7 @@ export default function DemoPage() {
           <h1 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>Your DNA Risk Report</h1>
           <span className="text-xs px-2.5 py-1 rounded-full font-medium"
             style={{ background: "var(--border)", color: "var(--muted)" }}>
-            {SAMPLE_REPORT.format_detected} · {SAMPLE_REPORT.snp_count.toLocaleString()} SNPs
+            {SAMPLE_REPORT.format_detected} · {snpCount.toLocaleString()} SNPs
           </span>
         </div>
         <p className="text-xs" style={{ color: "var(--muted)" }}>
