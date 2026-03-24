@@ -493,6 +493,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Demo profile cards ── */}
+      <section className="max-w-4xl mx-auto px-6 pb-20">
+        <div className="text-center mb-8">
+          <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--accent)" }}>Try live demos</div>
+          <h2 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>Pick a profile and see a real analysis</h2>
+          <p className="text-sm mt-2" style={{ color: "var(--muted)" }}>Each card opens a fully computed report — no account, no payment.</p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { id: "high-cardiovascular-risk", icon: "❤️", label: "High Cardiovascular Risk", desc: "APOE e3/e4 · Factor V Leiden · CYP2C19 poor metabolizer · high IL-6", score: 27, tier: "elevated" },
+            { id: "athletic-longevity",        icon: "🏃", label: "Athletic & Longevity",      desc: "ACTN3 power gene · FOXO3 longevity alleles · low inflammation", score: 8,  tier: "below_average" },
+            { id: "nutrition-mthfr",           icon: "🥑", label: "Nutrition & MTHFR",         desc: "Compound MTHFR · lactose intolerant · ALDH2 alcohol flush", score: 11, tier: "below_average" },
+            { id: "carrier-screening",         icon: "🧬", label: "Carrier Screening Focus",   desc: "CF carrier · Sickle Cell · Tay-Sachs · VKORC1 warfarin sensitive", score: 8, tier: "below_average" },
+          ].map(p => (
+            <Link
+              key={p.id}
+              href={`/demo?profile=${p.id}`}
+              className="group flex flex-col rounded-2xl p-5 transition-all hover:scale-[1.02] card-shadow"
+              style={{ background: "var(--card)", border: "1px solid var(--border)" }}
+            >
+              <div className="text-3xl mb-3">{p.icon}</div>
+              <div className="font-bold text-sm mb-2 leading-tight" style={{ color: "var(--foreground)" }}>{p.label}</div>
+              <div className="text-xs leading-relaxed flex-1" style={{ color: "var(--muted)" }}>{p.desc}</div>
+              <div className="mt-4 flex items-center justify-between">
+                <span className={`text-xs font-bold px-2 py-0.5 rounded badge-${p.tier}`}>
+                  Score {p.score}
+                </span>
+                <span className="text-xs font-semibold group-hover:underline" style={{ color: "var(--accent)" }}>
+                  View report →
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* ── CTA ── */}
       <section className="px-6 py-24 text-center hero-gradient">
         <div className="max-w-2xl mx-auto">
