@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
+import Logo from "../../components/Logo";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
