@@ -223,12 +223,10 @@ def get_all_rsids() -> list[str]:
     """Return every rsID in the variant database (deduped, preserving order)."""
     seen: set[str] = set()
     out: list[str] = []
-    for v in _VARIANT_DB["monogenic"]:
-        if v["rsid"] not in seen:
-            seen.add(v["rsid"]); out.append(v["rsid"])
-    for v in _VARIANT_DB["pharmacogenomics"]:
-        if v["rsid"] not in seen:
-            seen.add(v["rsid"]); out.append(v["rsid"])
+    for cat in ("monogenic", "pharmacogenomics", "carrier_status", "nutrigenomics", "traits", "mental_health", "longevity"):
+        for v in _VARIANT_DB.get(cat, []):
+            if isinstance(v, dict) and v["rsid"] not in seen:
+                seen.add(v["rsid"]); out.append(v["rsid"])
     for prs_cfg in _VARIANT_DB["prs"].values():
         for v in prs_cfg["variants"]:
             if v["rsid"] not in seen:
@@ -632,6 +630,66 @@ def compute_traits(snps: dict[str, str]) -> list[dict]:
         })
     return results
 
+# ── Mental health & brain chemistry ───────────────────────────────────────
+
+def compute_mental_health(snps: dict[str, str]) -> list[dict]:
+    """Evaluate mental health and brain chemistry variants."""
+    results = []
+    for variant in _VARIANT_DB.get("mental_health", []):
+        rsid = variant["rsid"]
+        genotype = snps.get(rsid)
+        if not genotype:
+            continue
+        copies = genotype.count(variant["risk_allele"])
+        result_text = variant.get(f"effect_{copies}", variant.get("effect_0", ""))
+        results.append({
+            "trait": variant["trait"],
+            "trait_key": variant.get("trait_key", rsid),
+            "gene": variant["gene"],
+            "rsid": rsid,
+            "genotype": genotype,
+            "category": variant.get("category", "Brain Chemistry"),
+            "copies_of_risk_allele": copies,
+            "result": result_text,
+            "note": variant.get("note", ""),
+            "source": variant.get("source", "GWAS"),
+        })
+    return results
+
+
+# ── Longevity & inflammation ───────────────────────────────────────────────
+
+def compute_longevity(snps: dict[str, str]) -> list[dict]:
+    """Evaluate longevity and inflammation markers."""
+    results = []
+    for variant in _VARIANT_DB.get("longevity", []):
+        rsid = variant["rsid"]
+        genotype = snps.get(rsid)
+        if not genotype:
+            continue
+        # For FOXO3, the T allele is protective (not a risk allele)
+        direction = variant.get("direction", "risk")
+        risk_allele = variant["risk_allele"]
+        copies = genotype.count(risk_allele)
+        result_text = variant.get(f"effect_{copies}", variant.get("effect_0", ""))
+        # Protective flag: FOXO3 TT (copies_of_risk==0 means GG which is non-protective)
+        is_protective = (direction == "protective_at_2" and copies == 0)
+        results.append({
+            "trait": variant["trait"],
+            "trait_key": variant.get("trait_key", rsid),
+            "gene": variant["gene"],
+            "rsid": rsid,
+            "genotype": genotype,
+            "category": variant.get("category", "Longevity"),
+            "copies_of_risk_allele": copies,
+            "result": result_text,
+            "note": variant.get("note", ""),
+            "source": variant.get("source", "GWAS"),
+            "protective": is_protective,
+        })
+    return results
+
+
 # ── Master scorer ──────────────────────────────────────────────────────────
 
 def score_all(snps: dict[str, str], enrichment: Optional[dict] = None) -> dict:
@@ -656,6 +714,8 @@ def score_all(snps: dict[str, str], enrichment: Optional[dict] = None) -> dict:
     carrier_status  = compute_carrier_status(snps)
     nutrigenomics   = compute_nutrigenomics(snps)
     traits          = compute_traits(snps)
+    mental_health   = compute_mental_health(snps)
+    longevity       = compute_longevity(snps)
 
     overall_score   = _compute_overall_score(disease_risks, pgx)
     priority_actions = _generate_priority_actions(disease_risks, pgx)
@@ -672,6 +732,8 @@ def score_all(snps: dict[str, str], enrichment: Optional[dict] = None) -> dict:
         "carrier_status": carrier_status,
         "nutrigenomics": nutrigenomics,
         "traits": traits,
+        "mental_health": mental_health,
+        "longevity": longevity,
         "summary": {
             "conditions_evaluated": len(disease_risks),
             "high_risk_count": sum(1 for r in disease_risks if r["risk_tier"] == "high"),
@@ -680,6 +742,8 @@ def score_all(snps: dict[str, str], enrichment: Optional[dict] = None) -> dict:
             "carrier_detected": carrier_detected,
             "nutrition_traits": len(nutrigenomics),
             "genetic_traits": len(traits),
+            "mental_health_variants": len(mental_health),
+            "longevity_variants": len(longevity),
         },
         "overall_risk_score": overall_score,
         "summary_sentence": summary_sentence,

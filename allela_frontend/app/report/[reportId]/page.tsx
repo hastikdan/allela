@@ -103,6 +103,31 @@ interface TraitResult {
   note: string;
 }
 
+interface MentalHealthResult {
+  trait: string;
+  trait_key: string;
+  gene: string;
+  rsid: string;
+  genotype: string;
+  category: string;
+  copies_of_risk_allele: number;
+  result: string;
+  note: string;
+}
+
+interface LongevityResult {
+  trait: string;
+  trait_key: string;
+  gene: string;
+  rsid: string;
+  genotype: string;
+  category: string;
+  copies_of_risk_allele: number;
+  result: string;
+  note: string;
+  protective: boolean;
+}
+
 interface Scores {
   disease_risks: DiseaseRisk[];
   pharmacogenomics: PGxFinding[];
@@ -121,6 +146,8 @@ interface Scores {
   carrier_status?: CarrierResult[];
   nutrigenomics?: NutritionResult[];
   traits?: TraitResult[];
+  mental_health?: MentalHealthResult[];
+  longevity?: LongevityResult[];
   disclaimer: string;
 }
 
@@ -698,6 +725,88 @@ export default function ReportPage() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {/* ── Mental Health & Brain Chemistry ── */}
+      {scores.mental_health && scores.mental_health.length > 0 && (
+        <div className="px-6 max-w-3xl mx-auto mb-6">
+          <div className="rounded-2xl overflow-hidden card-shadow" style={{ border: "1px solid var(--border)" }}>
+            <div className="px-6 py-4 flex items-center gap-3" style={{ background: "var(--card)", borderBottom: "1px solid var(--border)" }}>
+              <span className="text-xl">🧠</span>
+              <div>
+                <h2 className="text-base font-bold" style={{ color: "var(--foreground)" }}>Mental Health & Brain Chemistry</h2>
+                <p className="text-xs" style={{ color: "var(--muted)" }}>Neurotransmitter system variants — informational only, not diagnostic</p>
+              </div>
+            </div>
+            <div className="divide-y" style={{ borderColor: "var(--border)" }}>
+              {scores.mental_health.map(m => {
+                const dotColor = m.copies_of_risk_allele === 0 ? "#22c55e" : m.copies_of_risk_allele === 1 ? "#f59e0b" : "#f97316";
+                return (
+                  <div key={m.rsid} className="px-6 py-4" style={{ background: "var(--card)" }}>
+                    <div className="flex items-start gap-3">
+                      <div className="mt-1.5 w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: dotColor }} />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>{m.trait}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(139,92,246,0.1)", color: "#7c3aed", border: "1px solid rgba(139,92,246,0.2)" }}>{m.gene}</span>
+                          <span className="text-xs" style={{ color: "var(--muted)" }}>{m.category}</span>
+                        </div>
+                        <p className="text-sm mt-1.5 leading-relaxed" style={{ color: "var(--foreground)" }}>{m.result}</p>
+                        {m.note && <p className="text-xs mt-1.5 italic" style={{ color: "var(--muted)" }}>{m.note}</p>}
+                        <div className="text-xs mt-2 font-mono" style={{ color: "var(--muted)" }}>
+                          {m.rsid} · genotype <span className="font-bold" style={{ color: "var(--foreground)" }}>{m.genotype}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Longevity & Inflammation ── */}
+      {scores.longevity && scores.longevity.length > 0 && (
+        <div className="px-6 max-w-3xl mx-auto mb-6">
+          <div className="rounded-2xl overflow-hidden card-shadow" style={{ border: "1px solid var(--border)" }}>
+            <div className="px-6 py-4 flex items-center gap-3" style={{ background: "var(--card)", borderBottom: "1px solid var(--border)" }}>
+              <span className="text-xl">⏳</span>
+              <div>
+                <h2 className="text-base font-bold" style={{ color: "var(--foreground)" }}>Longevity & Inflammation</h2>
+                <p className="text-xs" style={{ color: "var(--muted)" }}>Aging pathway variants — FOXO3 longevity, telomere dynamics, metabolic efficiency, inflammatory cytokines</p>
+              </div>
+            </div>
+            <div className="divide-y" style={{ borderColor: "var(--border)" }}>
+              {scores.longevity.map(l => {
+                const isProtective = l.protective;
+                const dotColor = isProtective ? "#22c55e" : l.copies_of_risk_allele === 0 ? "#22c55e" : l.copies_of_risk_allele === 1 ? "#f59e0b" : "#ef4444";
+                return (
+                  <div key={l.rsid} className="px-6 py-4" style={{ background: "var(--card)" }}>
+                    <div className="flex items-start gap-3">
+                      <div className="mt-1.5 w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: dotColor }} />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>{l.trait}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(13,148,136,0.1)", color: "#0d9488", border: "1px solid rgba(13,148,136,0.2)" }}>{l.gene}</span>
+                          <span className="text-xs" style={{ color: "var(--muted)" }}>{l.category}</span>
+                          {isProtective && (
+                            <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "rgba(34,197,94,0.12)", color: "#16a34a", border: "1px solid rgba(34,197,94,0.25)" }}>★ Longevity allele</span>
+                          )}
+                        </div>
+                        <p className="text-sm mt-1.5 leading-relaxed" style={{ color: "var(--foreground)" }}>{l.result}</p>
+                        {l.note && <p className="text-xs mt-1.5 italic" style={{ color: "var(--muted)" }}>{l.note}</p>}
+                        <div className="text-xs mt-2 font-mono" style={{ color: "var(--muted)" }}>
+                          {l.rsid} · genotype <span className="font-bold" style={{ color: "var(--foreground)" }}>{l.genotype}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}

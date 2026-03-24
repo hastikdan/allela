@@ -501,6 +501,142 @@
       "source": "Multiple GWAS"
     }
   ],
+  "mental_health": [
+    {
+      "rsid": "rs4680",
+      "gene": "COMT",
+      "trait": "Dopamine & Stress Response",
+      "trait_key": "comt_dopamine",
+      "category": "Dopamine & Cognition",
+      "risk_allele": "A",
+      "effect_0": "Val/Val — higher COMT activity, faster dopamine clearance. Calmer under stress, lower anxiety baseline, but lower peak working memory.",
+      "effect_1": "Val/Met — balanced dopamine metabolism. Moderate stress resilience and cognitive performance.",
+      "effect_2": "Met/Met — lower COMT activity, slower dopamine clearance. Sharper working memory and focus, but stress-sensitive. Higher anxiety tendency under chronic pressure.",
+      "note": "The 'warrior vs worrier' polymorphism. Neither is better — Met shines in calm, Val shines under pressure.",
+      "source": "Multiple GWAS / Meta-analyses"
+    },
+    {
+      "rsid": "rs6265",
+      "gene": "BDNF",
+      "trait": "Brain Plasticity & Memory",
+      "trait_key": "bdnf_plasticity",
+      "category": "Brain Plasticity",
+      "risk_allele": "A",
+      "effect_0": "Val/Val — full BDNF secretion. Optimal neuroplasticity, strong episodic memory, best antidepressant response to exercise.",
+      "effect_1": "Val/Met — reduced activity-dependent BDNF release. Slightly lower episodic memory. Responds well to aerobic exercise for mood.",
+      "effect_2": "Met/Met — significantly reduced BDNF secretion. Lower episodic memory, higher depression risk under stress. Exercise is especially beneficial.",
+      "note": "Met carriers show greater antidepressant benefit from regular aerobic exercise than non-carriers.",
+      "source": "Multiple GWAS / Nature Neuroscience"
+    },
+    {
+      "rsid": "rs1800497",
+      "gene": "DRD2",
+      "trait": "Reward Sensitivity & Motivation",
+      "trait_key": "drd2_reward",
+      "category": "Dopamine Receptor",
+      "risk_allele": "A",
+      "effect_0": "No Taq1A — normal D2 receptor density. Average reward sensitivity and motivation.",
+      "effect_1": "One Taq1A — ~20% fewer D2 receptors. Lower reward sensitivity; may seek more stimulation.",
+      "effect_2": "Two Taq1A — ~30% fewer D2 receptors. Lower baseline reward signal; elevated risk of reward-seeking behavior and reduced motivation without external stimulation.",
+      "note": "Associated with addiction vulnerability, ADHD traits, and compulsive behavior. Also linked to exercise motivation.",
+      "source": "Multiple GWAS"
+    },
+    {
+      "rsid": "rs25531",
+      "gene": "SLC6A4",
+      "trait": "Serotonin Transport & Stress Sensitivity",
+      "trait_key": "serotonin_transport",
+      "category": "Serotonin System",
+      "risk_allele": "A",
+      "effect_0": "L/L — high serotonin transporter expression. Resilient to stress, lower anxiety, reduced depression risk.",
+      "effect_1": "L/S — intermediate serotonin reuptake. Moderate stress reactivity.",
+      "effect_2": "S/S — lower serotonin transporter expression. Elevated anxiety and depression risk under chronic stress. Short allele carriers are generally more responsive to SSRIs.",
+      "note": "Environment strongly moderates this variant. Adverse childhood experiences amplify the S/S risk significantly.",
+      "source": "Multiple GWAS / Science"
+    },
+    {
+      "rsid": "rs6323",
+      "gene": "MAOA",
+      "trait": "Monoamine Oxidase Activity",
+      "trait_key": "maoa_activity",
+      "category": "Neurotransmitter Clearance",
+      "risk_allele": "G",
+      "effect_0": "High activity — rapid breakdown of serotonin, dopamine, norepinephrine. Generally calmer but may respond less to environmental stimuli.",
+      "effect_1": "Intermediate activity.",
+      "effect_2": "Low activity — slower neurotransmitter breakdown. More emotionally reactive and empathetic; elevated aggression risk in adverse environments.",
+      "note": "X-linked gene. Males have one copy; the effect is direct and stronger. MAOA-L in adversity context is the most studied gene-environment interaction.",
+      "source": "Multiple GWAS / Science"
+    }
+  ],
+  "longevity": [
+    {
+      "rsid": "rs2802292",
+      "gene": "FOXO3",
+      "trait": "Longevity Pathway",
+      "trait_key": "foxo3_longevity",
+      "category": "Longevity",
+      "protective_allele": "T",
+      "risk_allele": "G",
+      "effect_0": "GG — non-longevity genotype. Average lifespan genetics at this locus.",
+      "effect_1": "GT — one protective allele. Moderately associated with longer healthy lifespan.",
+      "effect_2": "TT — both protective alleles. Consistently enriched in centenarian cohorts across Japan, Germany, Italy, and the US. Associated with reduced oxidative stress and enhanced autophagy.",
+      "note": "One of the most replicated longevity variants in human genetics. FOXO3 is a master regulator of cellular stress response.",
+      "source": "PNAS 2008 / Multiple replication studies",
+      "direction": "protective_at_2"
+    },
+    {
+      "rsid": "rs10069690",
+      "gene": "TERT",
+      "trait": "Telomere Maintenance",
+      "trait_key": "tert_telomere",
+      "category": "Cellular Aging",
+      "risk_allele": "T",
+      "effect_0": "CC — lower risk variant. Associated with normal telomere dynamics.",
+      "effect_1": "CT — intermediate. Modest association with telomere attrition.",
+      "effect_2": "TT — associated with shorter average telomere length and modestly elevated cancer risk (breast, ovarian). Cellular aging marker.",
+      "note": "Telomere length reflects cumulative oxidative stress and inflammation exposure.",
+      "source": "Nature Genetics / GWAS Catalog"
+    },
+    {
+      "rsid": "rs9939609",
+      "gene": "FTO",
+      "trait": "Metabolic Efficiency & Weight Regulation",
+      "trait_key": "fto_metabolism",
+      "category": "Metabolic Health",
+      "risk_allele": "A",
+      "effect_0": "TT — lowest obesity genetic risk. Normal energy regulation and satiety signaling.",
+      "effect_1": "AT — ~1.3× increased obesity risk vs TT. Moderate carbohydrate sensitivity. Benefit from portion awareness.",
+      "effect_2": "AA — ~1.7× increased obesity risk vs TT. Increased appetite drive, higher BMI tendency, greater carbohydrate sensitivity. Responds strongly to physical activity intervention.",
+      "note": "Most common obesity-associated variant worldwide. Physical activity almost fully abolishes the FTO effect.",
+      "source": "Science 2007 / Multiple GWAS"
+    },
+    {
+      "rsid": "rs1800795",
+      "gene": "IL6",
+      "trait": "Baseline Inflammation (IL-6)",
+      "trait_key": "il6_inflammation",
+      "category": "Inflammation",
+      "risk_allele": "C",
+      "effect_0": "GG — lower baseline IL-6 production. Anti-inflammatory tendency. Better cardiovascular aging profile.",
+      "effect_1": "GC — intermediate IL-6 levels.",
+      "effect_2": "CC — higher IL-6 production. Elevated CRP and systemic inflammation. Higher cardiovascular disease, metabolic syndrome, and all-cause mortality risk.",
+      "note": "IL-6 is a master pro-inflammatory cytokine. Chronic elevation accelerates biological aging.",
+      "source": "Multiple GWAS / Lancet"
+    },
+    {
+      "rsid": "rs1800629",
+      "gene": "TNF",
+      "trait": "TNF-α Inflammatory Response",
+      "trait_key": "tnf_inflammation",
+      "category": "Inflammation",
+      "risk_allele": "A",
+      "effect_0": "GG — normal TNF-alpha production. No elevated inflammatory cytokine risk.",
+      "effect_1": "GA — higher TNF-alpha production. Moderate inflammatory tendency. Elevated autoimmune disease risk.",
+      "effect_2": "AA — highest TNF-alpha. Strongly associated with autoimmune conditions, sepsis susceptibility, and inflammatory bowel disease.",
+      "note": "TNF-alpha is a master inflammatory cytokine. Anti-TNF biologics (etanercept, adalimumab) specifically target this pathway.",
+      "source": "Multiple GWAS"
+    }
+  ],
   "traits": [
     {
       "rsid": "rs12913832",

@@ -2,7 +2,39 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Logo from "../components/Logo";
+
+const SAMPLE_PROFILES = [
+  {
+    id: "high-cardiovascular-risk",
+    label: "High Cardiovascular Risk",
+    icon: "❤️",
+    desc: "APOE e3/e4 · Factor V Leiden carrier · CYP2C19 poor metabolizer · high IL-6 inflammation",
+    file: "/samples/high-cardiovascular-risk.txt",
+  },
+  {
+    id: "athletic-longevity",
+    label: "Athletic & Longevity",
+    icon: "🏃",
+    desc: "ACTN3 power gene · FOXO3 longevity alleles · low inflammation · fast caffeine metabolism",
+    file: "/samples/athletic-longevity.txt",
+  },
+  {
+    id: "nutrition-mthfr",
+    label: "Nutrition & MTHFR",
+    icon: "🥑",
+    desc: "Compound MTHFR · lactose intolerant · low vitamin D · ALDH2 alcohol flush · low omega-3 conversion",
+    file: "/samples/nutrition-mthfr.txt",
+  },
+  {
+    id: "carrier-screening",
+    label: "Carrier Screening Focus",
+    icon: "🧬",
+    desc: "CF carrier · Sickle Cell carrier · Tay-Sachs carrier · VKORC1 warfarin sensitive · DRD2 reward",
+    file: "/samples/carrier-screening.txt",
+  },
+];
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -14,6 +46,7 @@ export default function UploadPage() {
   const [error, setError] = useState("");
   const [dragOver, setDragOver] = useState(false);
   const [email, setEmail] = useState("");
+  const [loadingSample, setLoadingSample] = useState<string | null>(null);
 
   const handleFile = useCallback(async (file: File) => {
     if (!file.name.endsWith(".txt") && file.type !== "text/plain") {
@@ -69,6 +102,23 @@ export default function UploadPage() {
     }
   }, [email]);
 
+  const loadSampleProfile = useCallback(async (profile: typeof SAMPLE_PROFILES[0]) => {
+    setLoadingSample(profile.id);
+    setError("");
+    try {
+      const res = await fetch(profile.file);
+      const text = await res.text();
+      const blob = new Blob([text], { type: "text/plain" });
+      const file = new File([blob], `${profile.id}.txt`, { type: "text/plain" });
+      await handleFile(file);
+    } catch {
+      setError("Failed to load sample file. Please try again.");
+      setStage("idle");
+    } finally {
+      setLoadingSample(null);
+    }
+  }, [handleFile]);
+
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setDragOver(false);
@@ -120,6 +170,41 @@ export default function UploadPage() {
             }}
           />
         </div>
+
+        {/* Sample profiles */}
+        {!isProcessing && (
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--muted)" }}>
+                Try a sample profile
+              </span>
+              <div className="flex-1 h-px" style={{ background: "var(--border)" }} />
+              <Link href="/demo" className="text-xs" style={{ color: "var(--accent)" }}>
+                preview report →
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {SAMPLE_PROFILES.map(p => (
+                <button
+                  key={p.id}
+                  onClick={() => loadSampleProfile(p)}
+                  disabled={loadingSample !== null}
+                  className="text-left p-3 rounded-xl transition-all hover:opacity-80 disabled:opacity-40"
+                  style={{ background: "var(--card-alt)", border: "1px solid var(--border)" }}
+                >
+                  <div className="text-lg mb-1">{p.icon}</div>
+                  <div className="text-xs font-semibold leading-tight" style={{ color: "var(--foreground)" }}>
+                    {loadingSample === p.id ? "Loading..." : p.label}
+                  </div>
+                  <div className="text-xs mt-1 leading-tight" style={{ color: "var(--muted)" }}>{p.desc}</div>
+                </button>
+              ))}
+            </div>
+            <div className="mt-3 text-center text-xs" style={{ color: "var(--muted)" }}>
+              — or upload your own file below —
+            </div>
+          </div>
+        )}
 
         {/* Drop zone */}
         {!isProcessing && (

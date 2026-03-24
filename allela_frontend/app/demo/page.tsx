@@ -348,6 +348,20 @@ const SAMPLE_REPORT = {
       { trait: "Muscle Fiber Composition", trait_key: "muscle_composition", gene: "ACTN3", rsid: "rs1815739", genotype: "CT", category: "Athletic Traits", result: "Mixed muscle fiber profile — balanced fast-twitch and slow-twitch composition", note: "Olympic sprinters rarely carry TT; endurance athletes have elevated TT frequency." },
       { trait: "Sleep Chronotype", trait_key: "sleep_chronotype", gene: "CLOCK", rsid: "rs1801260", genotype: "GG", category: "Behavioral Traits", result: "Evening preference (night owl) genetic tendency — natural sleep timing skews later", note: "" },
     ],
+    mental_health: [
+      { trait: "Dopamine & Stress Response", trait_key: "comt_dopamine", gene: "COMT", rsid: "rs4680", genotype: "AA", category: "Dopamine & Cognition", copies_of_risk_allele: 2, result: "Met/Met — lower COMT activity, slower dopamine clearance. Sharper working memory and focus, but stress-sensitive. Higher anxiety tendency under chronic pressure.", note: "The 'warrior vs worrier' polymorphism. Neither is better — Met shines in calm, Val shines under pressure." },
+      { trait: "Brain Plasticity & Memory", trait_key: "bdnf_plasticity", gene: "BDNF", rsid: "rs6265", genotype: "AG", category: "Brain Plasticity", copies_of_risk_allele: 1, result: "Val/Met — reduced activity-dependent BDNF release. Slightly lower episodic memory. Responds well to aerobic exercise for mood.", note: "Met carriers show greater antidepressant benefit from regular aerobic exercise than non-carriers." },
+      { trait: "Reward Sensitivity & Motivation", trait_key: "drd2_reward", gene: "DRD2", rsid: "rs1800497", genotype: "AG", category: "Dopamine Receptor", copies_of_risk_allele: 1, result: "One Taq1A — ~20% fewer D2 receptors. Lower reward sensitivity; may seek more stimulation.", note: "Associated with addiction vulnerability, ADHD traits, and compulsive behavior. Also linked to exercise motivation." },
+      { trait: "Serotonin Transport & Stress Sensitivity", trait_key: "serotonin_transport", gene: "SLC6A4", rsid: "rs25531", genotype: "AA", category: "Serotonin System", copies_of_risk_allele: 2, result: "S/S — lower serotonin transporter expression. Elevated anxiety and depression risk under chronic stress. Short allele carriers are generally more responsive to SSRIs.", note: "Environment strongly moderates this variant. Adverse childhood experiences amplify the S/S risk significantly." },
+      { trait: "Monoamine Oxidase Activity", trait_key: "maoa_activity", gene: "MAOA", rsid: "rs6323", genotype: "GG", category: "Neurotransmitter Clearance", copies_of_risk_allele: 0, result: "High activity — rapid breakdown of serotonin, dopamine, norepinephrine. Generally calmer but may respond less to environmental stimuli.", note: "X-linked gene. Males have one copy; the effect is direct and stronger." },
+    ],
+    longevity: [
+      { trait: "Longevity Pathway", trait_key: "foxo3_longevity", gene: "FOXO3", rsid: "rs2802292", genotype: "GG", category: "Longevity", copies_of_risk_allele: 2, result: "GG — non-longevity genotype. Average lifespan genetics at this locus.", note: "One of the most replicated longevity variants in human genetics. FOXO3 is a master regulator of cellular stress response.", protective: false },
+      { trait: "Telomere Maintenance", trait_key: "tert_telomere", gene: "TERT", rsid: "rs10069690", genotype: "CT", category: "Cellular Aging", copies_of_risk_allele: 1, result: "CT — intermediate. Modest association with telomere attrition.", note: "Telomere length reflects cumulative oxidative stress and inflammation exposure.", protective: false },
+      { trait: "Metabolic Efficiency & Weight Regulation", trait_key: "fto_metabolism", gene: "FTO", rsid: "rs9939609", genotype: "AA", category: "Metabolic Health", copies_of_risk_allele: 2, result: "AA — ~1.7× increased obesity risk vs TT. Increased appetite drive, higher BMI tendency, greater carbohydrate sensitivity. Responds strongly to physical activity intervention.", note: "Most common obesity-associated variant worldwide. Physical activity almost fully abolishes the FTO effect.", protective: false },
+      { trait: "Baseline Inflammation (IL-6)", trait_key: "il6_inflammation", gene: "IL6", rsid: "rs1800795", genotype: "CC", category: "Inflammation", copies_of_risk_allele: 2, result: "CC — higher IL-6 production. Elevated CRP and systemic inflammation. Higher cardiovascular disease, metabolic syndrome, and all-cause mortality risk.", note: "IL-6 is a master pro-inflammatory cytokine. Chronic elevation accelerates biological aging.", protective: false },
+      { trait: "TNF-α Inflammatory Response", trait_key: "tnf_inflammation", gene: "TNF", rsid: "rs1800629", genotype: "GA", category: "Inflammation", copies_of_risk_allele: 1, result: "GA — higher TNF-alpha production. Moderate inflammatory tendency. Elevated autoimmune disease risk.", note: "TNF-alpha is a master inflammatory cytokine. Anti-TNF biologics (etanercept, adalimumab) specifically target this pathway.", protective: false },
+    ],
     disclaimer:
       "This report is for educational and informational purposes only. It does not constitute medical advice, diagnosis, or treatment. Consult a qualified healthcare provider before making any health decisions.",
   },
@@ -361,6 +375,8 @@ type Priority = "P1" | "P2" | "P3";
 interface CarrierResult { condition: string; condition_key: string; gene: string; inheritance: string; carrier_frequency: number; status: string; risk_copies: number; hits: any[]; effect: string; }
 interface NutritionResult { trait: string; trait_key: string; gene: string; rsid: string; genotype: string; category: string; copies_of_risk_allele: number; result: string; }
 interface TraitResult { trait: string; trait_key: string; gene: string; rsid: string; genotype: string; category: string; result: string; note: string; }
+interface MentalHealthResult { trait: string; trait_key: string; gene: string; rsid: string; genotype: string; category: string; copies_of_risk_allele: number; result: string; note: string; }
+interface LongevityResult { trait: string; trait_key: string; gene: string; rsid: string; genotype: string; category: string; copies_of_risk_allele: number; result: string; note: string; protective: boolean; }
 
 const TIER_COLOR: Record<RiskTier, string> = {
   high: "#ef4444",
@@ -422,7 +438,7 @@ export default function DemoPage() {
     disclaimer,
   } = scores;
 
-  const { carrier_status = [], nutrigenomics = [], traits = [] } = scores as any;
+  const { carrier_status = [], nutrigenomics = [], traits = [], mental_health = [], longevity = [] } = scores as any;
 
   const [expandedDetails, setExpandedDetails] = useState(false);
   const [expandedVariants, setExpandedVariants] = useState(false);
@@ -1031,6 +1047,91 @@ export default function DemoPage() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════════════════════
+          MENTAL HEALTH & BRAIN CHEMISTRY
+      ══════════════════════════════════════════════════════════════ */}
+      {(mental_health as MentalHealthResult[]).length > 0 && (
+        <div className="px-6 mt-8 max-w-3xl mx-auto">
+          <div className="rounded-2xl overflow-hidden card-shadow" style={{ border: "1px solid var(--border)" }}>
+            <div className="px-6 py-4 flex items-center gap-3" style={{ background: "var(--card)", borderBottom: "1px solid var(--border)" }}>
+              <span className="text-xl">🧠</span>
+              <div>
+                <h2 className="text-lg font-bold" style={{ color: "var(--foreground)" }}>Mental Health & Brain Chemistry</h2>
+                <p className="text-xs" style={{ color: "var(--muted)" }}>Neurotransmitter system variants — informational only, not diagnostic</p>
+              </div>
+            </div>
+            <div className="divide-y" style={{ borderColor: "var(--border)" }}>
+              {(mental_health as MentalHealthResult[]).map(m => {
+                const dotColor = m.copies_of_risk_allele === 0 ? "#22c55e" : m.copies_of_risk_allele === 1 ? "#f59e0b" : "#f97316";
+                return (
+                  <div key={m.rsid} className="px-6 py-4" style={{ background: "var(--card)" }}>
+                    <div className="flex items-start gap-3">
+                      <div className="mt-1.5 w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: dotColor }} />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>{m.trait}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(139,92,246,0.1)", color: "#7c3aed", border: "1px solid rgba(139,92,246,0.2)" }}>{m.gene}</span>
+                          <span className="text-xs" style={{ color: "var(--muted)" }}>{m.category}</span>
+                        </div>
+                        <p className="text-sm mt-1.5 leading-relaxed" style={{ color: "var(--foreground)" }}>{m.result}</p>
+                        {m.note && <p className="text-xs mt-1.5 italic" style={{ color: "var(--muted)" }}>{m.note}</p>}
+                        <div className="text-xs mt-2 font-mono" style={{ color: "var(--muted)" }}>
+                          {m.rsid} · genotype <span className="font-bold" style={{ color: "var(--foreground)" }}>{m.genotype}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════════════════════
+          LONGEVITY & INFLAMMATION
+      ══════════════════════════════════════════════════════════════ */}
+      {(longevity as LongevityResult[]).length > 0 && (
+        <div className="px-6 mt-8 max-w-3xl mx-auto">
+          <div className="rounded-2xl overflow-hidden card-shadow" style={{ border: "1px solid var(--border)" }}>
+            <div className="px-6 py-4 flex items-center gap-3" style={{ background: "var(--card)", borderBottom: "1px solid var(--border)" }}>
+              <span className="text-xl">⏳</span>
+              <div>
+                <h2 className="text-lg font-bold" style={{ color: "var(--foreground)" }}>Longevity & Inflammation</h2>
+                <p className="text-xs" style={{ color: "var(--muted)" }}>Aging pathway variants — FOXO3, telomeres, metabolic efficiency, inflammatory cytokines</p>
+              </div>
+            </div>
+            <div className="divide-y" style={{ borderColor: "var(--border)" }}>
+              {(longevity as LongevityResult[]).map(l => {
+                const dotColor = l.protective ? "#22c55e" : l.copies_of_risk_allele === 0 ? "#22c55e" : l.copies_of_risk_allele === 1 ? "#f59e0b" : "#ef4444";
+                return (
+                  <div key={l.rsid} className="px-6 py-4" style={{ background: "var(--card)" }}>
+                    <div className="flex items-start gap-3">
+                      <div className="mt-1.5 w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: dotColor }} />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>{l.trait}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(13,148,136,0.1)", color: "#0d9488", border: "1px solid rgba(13,148,136,0.2)" }}>{l.gene}</span>
+                          <span className="text-xs" style={{ color: "var(--muted)" }}>{l.category}</span>
+                          {l.protective && (
+                            <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "rgba(34,197,94,0.12)", color: "#16a34a", border: "1px solid rgba(34,197,94,0.25)" }}>★ Longevity allele</span>
+                          )}
+                        </div>
+                        <p className="text-sm mt-1.5 leading-relaxed" style={{ color: "var(--foreground)" }}>{l.result}</p>
+                        {l.note && <p className="text-xs mt-1.5 italic" style={{ color: "var(--muted)" }}>{l.note}</p>}
+                        <div className="text-xs mt-2 font-mono" style={{ color: "var(--muted)" }}>
+                          {l.rsid} · genotype <span className="font-bold" style={{ color: "var(--foreground)" }}>{l.genotype}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
