@@ -176,11 +176,14 @@ export default function Home() {
           </div>
 
           <h1 className="text-5xl font-bold leading-tight mb-6" style={{ color: "var(--foreground)", letterSpacing: "-0.02em" }}>
-            Your 23andMe file contains<br />
+            Your DNA already knows.<br />
             <span style={{ background: "linear-gradient(90deg, #6366f1, #8b5cf6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              answers you haven't read yet
+              You just haven't looked.
             </span>
           </h1>
+          <p className="text-base font-semibold mb-2" style={{ color: "var(--muted)" }}>
+            The answers were in your file all along.
+          </p>
 
           <p className="text-lg max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "var(--muted)" }}>
             Upload your raw DNA export. In under 2 minutes, get a clinically-informed report covering disease risks,
@@ -493,10 +496,18 @@ export default function Home() {
       {/* ── CTA ── */}
       <section className="px-6 py-24 text-center hero-gradient">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-4xl font-bold mb-4" style={{ color: "var(--foreground)", letterSpacing: "-0.02em" }}>
-            Ready to read your genome?
+          <h2 className="text-4xl font-bold mb-2 leading-tight" style={{ color: "var(--foreground)", letterSpacing: "-0.02em" }}>
+            Your health story is already written.
           </h2>
-          <p className="text-base mb-10" style={{ color: "var(--muted)" }}>
+          <h2 className="text-4xl font-bold mb-6 leading-tight">
+            <span style={{ background: "linear-gradient(90deg, #6366f1, #8b5cf6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Time to read it.
+            </span>
+          </h2>
+          <p className="text-base font-semibold mb-2" style={{ color: "var(--foreground)" }}>
+            Upload once. Understand everything.
+          </p>
+          <p className="text-sm mb-10" style={{ color: "var(--muted)" }}>
             One-time $49. Report in under 2 minutes. No account. No data retained.
           </p>
           <Link href="/upload"
