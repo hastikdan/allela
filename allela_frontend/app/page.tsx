@@ -156,6 +156,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <a href="#how-it-works" className="text-sm hidden sm:block" style={{ color: "var(--muted)" }}>How it works</a>
             <a href="#use-cases" className="text-sm hidden sm:block" style={{ color: "var(--muted)" }}>Use cases</a>
+            <a href="#get-your-data" className="text-sm hidden sm:block" style={{ color: "var(--muted)" }}>Get your data</a>
             <Link href="/demo" className="text-sm hidden sm:block" style={{ color: "var(--muted)" }}>Sample Report</Link>
             <Link href="/upload"
               className="text-sm font-semibold px-4 py-2 rounded-lg transition-all hover:opacity-90"
@@ -452,6 +453,180 @@ export default function Home() {
               <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{s.body}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Supported providers ── */}
+      <section id="get-your-data" className="max-w-5xl mx-auto px-6 py-20">
+        <div className="text-center mb-12">
+          <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--accent)" }}>Supported providers</div>
+          <h2 className="text-3xl font-bold" style={{ color: "var(--foreground)" }}>How to get your raw DNA file</h2>
+          <p className="text-sm mt-3 max-w-xl mx-auto" style={{ color: "var(--muted)" }}>
+            Allela accepts raw exports from all major consumer and research DNA platforms.
+            Follow the steps below for your provider — it takes under 2 minutes.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-4">
+          {[
+            {
+              name: "23andMe",
+              logo: "🧬",
+              color: "#6366f1",
+              format: ".txt · ~30 MB",
+              steps: [
+                "Sign in at 23andme.com",
+                "Click your name → Settings",
+                "Scroll to '23andMe Data'",
+                "Click 'Download Raw Data'",
+                "Select 'All DNA Data' → confirm via email",
+              ],
+              note: "Works with v3, v4, and v5 chip formats.",
+            },
+            {
+              name: "AncestryDNA",
+              logo: "🌳",
+              color: "#10b981",
+              format: ".txt · ~10 MB",
+              steps: [
+                "Sign in at ancestry.com",
+                "Click 'DNA' in the top menu",
+                "Select 'Settings' (gear icon)",
+                "Click 'Download Raw DNA Data'",
+                "Confirm your identity via email link",
+              ],
+              note: "Download arrives as a .zip — extract the .txt inside.",
+            },
+            {
+              name: "MyHeritage",
+              logo: "🏡",
+              color: "#f97316",
+              format: ".csv · ~25 MB",
+              steps: [
+                "Sign in at myheritage.com",
+                "Click 'DNA' → 'Manage DNA kits'",
+                "Click the three-dot menu on your kit",
+                "Select 'Download raw DNA data'",
+                "Confirm via email and download",
+              ],
+              note: "MyHeritage exports as .csv — Allela handles both formats.",
+            },
+            {
+              name: "FamilyTreeDNA",
+              logo: "🌲",
+              color: "#3b82f6",
+              format: ".csv · ~15 MB",
+              steps: [
+                "Sign in at familytreedna.com",
+                "Go to 'My DNA' → 'Download Raw Data'",
+                "Select 'Autosomal Data' (Build 37 or 38)",
+                "Click 'Download CSV'",
+              ],
+              note: "Use the autosomal (atDNA) export, not Y-DNA or mtDNA.",
+            },
+            {
+              name: "LivingDNA",
+              logo: "💚",
+              color: "#0d9488",
+              format: ".txt · ~20 MB",
+              steps: [
+                "Sign in at livingdna.com",
+                "Go to 'Account' → 'Raw data download'",
+                "Click 'Download raw data'",
+                "Confirm via email and save the .txt file",
+              ],
+              note: "Select the full genome build when prompted.",
+            },
+            {
+              name: "Genos",
+              logo: "🔬",
+              color: "#8b5cf6",
+              format: ".vcf or .txt",
+              steps: [
+                "Sign in at genos.com",
+                "Go to 'My Data' → 'Download'",
+                "Select 'Raw Genome Data'",
+                "Download the VCF or flat-file export",
+              ],
+              note: "Genos provides whole-exome sequencing — higher coverage than SNP arrays.",
+            },
+            {
+              name: "DNA.land",
+              logo: "🌐",
+              color: "#f59e0b",
+              format: ".txt (re-export)",
+              steps: [
+                "Sign in at dna.land",
+                "Go to 'Profile' → 'Manage Files'",
+                "Find your uploaded genome file",
+                "Click 'Download' to re-export your raw data",
+              ],
+              note: "DNA.land stores the file you originally uploaded — download that original.",
+            },
+            {
+              name: "Genes for Good",
+              logo: "🎓",
+              color: "#ec4899",
+              format: ".txt · ~25 MB",
+              steps: [
+                "Sign in at genesforgood.sph.umich.edu",
+                "Go to 'My Data'",
+                "Click 'Download Genetic Data'",
+                "Save the raw .txt export file",
+              ],
+              note: "University of Michigan research platform — standard 23andMe-compatible format.",
+            },
+            {
+              name: "GenomeStudio (Illumina)",
+              logo: "🏭",
+              color: "#64748b",
+              format: ".txt final report",
+              steps: [
+                "Open your GenomeStudio project",
+                "Go to 'Analysis' → 'Final Report'",
+                "Set columns: SNP Name, Chr, Position, Allele1/2 — Forward",
+                "Export as tab-delimited .txt file",
+              ],
+              note: "Used by research labs. Export must include rsID, chromosome, position, and genotype columns.",
+            },
+          ].map(p => (
+            <div key={p.name} className="rounded-2xl overflow-hidden card-shadow"
+              style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
+              <div className="px-5 py-4 flex items-center gap-3"
+                style={{ borderBottom: "1px solid var(--border)", background: "var(--card-alt)" }}>
+                <span className="text-2xl">{p.logo}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-sm" style={{ color: "var(--foreground)" }}>{p.name}</div>
+                  <div className="text-xs font-mono mt-0.5" style={{ color: p.color }}>{p.format}</div>
+                </div>
+              </div>
+              <div className="px-5 py-4">
+                <ol className="space-y-1.5">
+                  {p.steps.map((s, i) => (
+                    <li key={i} className="flex items-start gap-2 text-xs" style={{ color: "var(--muted)" }}>
+                      <span className="flex-shrink-0 w-4 h-4 rounded-full text-center text-xs font-bold leading-4"
+                        style={{ background: `${p.color}20`, color: p.color }}>{i + 1}</span>
+                      {s}
+                    </li>
+                  ))}
+                </ol>
+                {p.note && (
+                  <p className="text-xs mt-3 pt-3 italic" style={{ color: "var(--muted-light)", borderTop: "1px solid var(--border)" }}>
+                    {p.note}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 text-center">
+          <Link href="/upload"
+            className="inline-block text-sm font-bold px-8 py-3 rounded-xl transition-all hover:opacity-90"
+            style={{ background: "var(--accent)", color: "#fff" }}>
+            Upload your file →
+          </Link>
+          <p className="text-xs mt-3" style={{ color: "var(--muted)" }}>
+            Don't have a file yet? Try a <Link href="/demo" style={{ color: "var(--accent)" }}>sample report</Link> first.
+          </p>
         </div>
       </section>
 

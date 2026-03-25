@@ -248,13 +248,26 @@ export default function UploadPage() {
 
       {/* How to export */}
       <details className="mt-6 max-w-lg w-full">
-        <summary className="text-xs cursor-pointer" style={{ color: "var(--accent)" }}>
-          How do I export my raw data?
+        <summary className="text-xs cursor-pointer font-semibold" style={{ color: "var(--accent)" }}>
+          How do I export my raw data? (9 providers)
         </summary>
-        <div className="mt-3 p-4 rounded-xl text-xs space-y-3" style={{ background: "var(--card)", border: "1px solid var(--border)", color: "var(--muted)" }}>
-          <p><strong style={{ color: "var(--foreground)" }}>23andMe:</strong> Account → Settings → 23andMe Data → Download Raw Data → All DNA Data (.txt)</p>
-          <p><strong style={{ color: "var(--foreground)" }}>AncestryDNA:</strong> DNA → Settings → Download Raw DNA Data → Confirm via email</p>
-          <p><strong style={{ color: "var(--foreground)" }}>MyHeritage:</strong> DNA → Manage DNA Kits → Download Raw DNA Data</p>
+        <div className="mt-3 rounded-xl text-xs overflow-hidden" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
+          {[
+            { name: "23andMe",           steps: "Name → Settings → '23andMe Data' → Download Raw Data → All DNA Data → confirm via email" },
+            { name: "AncestryDNA",       steps: "DNA → Settings (gear) → Download Raw DNA Data → confirm via email → extract .txt from .zip" },
+            { name: "MyHeritage",        steps: "DNA → Manage DNA Kits → three-dot menu → Download raw DNA data → confirm via email" },
+            { name: "FamilyTreeDNA",     steps: "My DNA → Download Raw Data → Autosomal Data → Download CSV" },
+            { name: "LivingDNA",         steps: "Account → Raw data download → Download raw data → confirm via email" },
+            { name: "Genos",             steps: "My Data → Download → Raw Genome Data → download VCF or flat file" },
+            { name: "DNA.land",          steps: "Profile → Manage Files → click Download on your uploaded genome file" },
+            { name: "Genes for Good",    steps: "My Data → Download Genetic Data → save .txt export" },
+            { name: "GenomeStudio",      steps: "Analysis → Final Report → export tab-delimited .txt with rsID, Chr, Position, Allele columns" },
+          ].map((p, i, arr) => (
+            <div key={p.name} className="px-4 py-3" style={{ borderBottom: i < arr.length - 1 ? "1px solid var(--border)" : "none" }}>
+              <span className="font-bold" style={{ color: "var(--foreground)" }}>{p.name}: </span>
+              <span style={{ color: "var(--muted)" }}>{p.steps}</span>
+            </div>
+          ))}
         </div>
       </details>
     </main>
